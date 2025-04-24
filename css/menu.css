@@ -1,0 +1,90 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    display: flex;
+}
+
+/* Oldalsó menü */
+.side-menu {
+    width: 250px;
+    background-color: #fff;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
+    height: 100vh;
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.side-menu a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 15px 25px;
+    font-size: 1.2em;
+    margin: 10px 0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.side-menu a:hover {
+    background-color: #16a085;
+    color: white;
+    transform: translateX(0.5px);
+}
+
+.side-menu a:active {
+    background-color: #1abc9c;
+}
+
+/* Tartalom */
+.content {
+    margin-left: 250px;
+    padding: 40px;
+    width: 100%;
+}
+
+/* Fejléc */
+.header {
+    background-color: #fff;
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 251px;
+    right: 0;
+    z-index: 100;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2em;
+    color: #333;
+}
+
+.welcome {
+    font-size: 1.1em;
+    margin-top: 10px;
+    color: #555;
+}
+
+/* Reszponzív dizájn */
+@media (max-width: 768px) {
+    .side-menu {
+        width: 200px;
+    }
+
+    .content {
+        margin-left: 0;
+        padding-top: 80px; /* Fejléc miatt */
+    }
+
+    .header {
+        left: 0;
+        width: 100%;
+    }
+}
