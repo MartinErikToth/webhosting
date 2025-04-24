@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (isset($_POST['belepes'])) {
-        $conn = oci_connect("C##R6LBDN", "", "//localhost/XEPDB1");
+        $conn = oci_connect("C##R6LBDN", "C##R6LBDN", "//localhost/XEPDB1");
         if (!$conn) {
             $e = oci_error();
             die("Kapcsolódási hiba: " . $e['message']);
