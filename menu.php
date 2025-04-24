@@ -34,7 +34,7 @@ oci_close($conn);
 </head>
 <body>
 
-<!-- Oldalsó menü -->
+
 <div class="side-menu">
     <a href="packeing.php">Csomagolás</a>
     <a href="buying.php">Vásárlás</a>
@@ -44,14 +44,12 @@ oci_close($conn);
     <a href="login.php">Kijelentkezés</a>
 </div>
 
-<!-- Tartalom -->
+
 <div class="content">
     <div class="header">
         <h1>Főmenü</h1>
         <p class="welcome">Bejelentkezve: <strong><?php echo htmlspecialchars($felhasznalonev); ?></strong></p>
     </div>
-
-    <!-- Itt jöhet a többi tartalom, ha szükséges -->
 </div>
 
 </body>

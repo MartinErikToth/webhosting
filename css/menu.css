@@ -7,7 +7,6 @@ body {
     display: flex;
 }
 
-/* Oldalsó menü */
 .side-menu {
     width: 250px;
     background-color: #fff;
@@ -40,14 +39,14 @@ body {
     background-color: #1abc9c;
 }
 
-/* Tartalom */
+
 .content {
     margin-left: 250px;
     padding: 40px;
     width: 100%;
 }
 
-/* Fejléc */
+
 .header {
     background-color: #fff;
     padding: 20px;
@@ -72,7 +71,7 @@ body {
     color: #555;
 }
 
-/* Reszponzív dizájn */
+
 @media (max-width: 768px) {
     .side-menu {
         width: 200px;
@@ -80,7 +79,7 @@ body {
 
     .content {
         margin-left: 0;
-        padding-top: 80px; /* Fejléc miatt */
+        padding-top: 80px; 
     }
 
     .header {

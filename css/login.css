@@ -81,7 +81,7 @@ h1 {
     background-color: #3a2b99;
 }
 
-/* Hibaüzenetek stílusa */
+
 .error-msg {
     color: #ff4d4d;
     font-size: 1em;
@@ -89,13 +89,12 @@ h1 {
     animation: fadeIn 0.5s ease-out;
 }
 
-/* Animáció a bejelentkezési dobozhoz */
+
 @keyframes fadeIn {
     0% { opacity: 0; transform: translateY(-20px); }
     100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Reszponzív design */
 @media (max-width: 500px) {
     .login-container {
         padding: 20px;
