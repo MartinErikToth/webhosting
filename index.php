@@ -11,19 +11,7 @@ session_start();
 </head>
 <body>
 
-<header>
-    <nav>
-        <div class="logo">
-            <h1>WebHosting</h1>
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.php">Kezdőlap</a></li>
-            <li><a href="services.php">Szolgáltatások</a></li>
-            <li><a href="about.php">Rólunk</a></li>
-            <li><a href="contact.php">Kapcsolat</a></li>
-        </ul>
-    </nav>
-</header>
+<?php include 'header.php'; ?>
 
 <section class="hero">
     <div class="hero-content">
@@ -32,7 +20,6 @@ session_start();
         <div class="cta-buttons">
             <a href="singup.php" class="cta-button">Regisztráció</a>
             <a href="login.php" class="cta-button">Bejelentkezés</a>
-            <a href="packages.php" class="cta-button">Belépés, mint vendég</a>
         </div>
     </div>
 </section>
@@ -55,9 +42,7 @@ session_start();
     </div>
 </section>
 
-<footer>
-    <p>&copy; 2025 WebHosting | Minden jog fenntartva</p>
-</footer>
+<?php include 'footer.php'; ?>
 
 </body>
 </html>

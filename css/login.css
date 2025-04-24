@@ -95,6 +95,7 @@ h1 {
     100% { opacity: 1; transform: translateY(0); }
 }
 
+
 @media (max-width: 500px) {
     .login-container {
         padding: 20px;
