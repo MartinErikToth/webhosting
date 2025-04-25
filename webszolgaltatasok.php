@@ -6,7 +6,7 @@ $felhasznalo_id = $_SESSION['user_id'] ?? null;
 $hiba = "";
 $siker = "";
 
-// Ha a POST kérés megtörtént, akkor az adatbázisba mentjük az adatokat
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csomagkod'], $_POST['szamlaszam'])) {
     $csomagkod = $_POST['csomagkod'];
     $szamlaszam = $_POST['szamlaszam'];
@@ -18,30 +18,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csomagkod'], $_POST['
         oci_bind_by_name($stmt, ":szamlaszam", $szamlaszam);
 
         if (oci_execute($stmt)) {
-            // Siker üzenet
             $_SESSION['siker'] = "Sikeres vásárlás!";
         } else {
-            // Hiba üzenet
             $_SESSION['hiba'] = "Hiba történt a vásárlás során!";
         }
 
         oci_free_statement($stmt);
 
-        // POST-Redirect-GET minta alkalmazása
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit;
     } else {
-        // Hiányzó adatok hiba üzenet
         $_SESSION['hiba'] = "Hiányzó adatok!";
     }
 }
 
-// Díjcsomagok lekérése
 $sql = "SELECT * FROM DIJCSOMAG";
 $stmt = oci_parse($conn, $sql);
 oci_execute($stmt);
 
-// Üzenet törlése, miután megjelenítjük, hogy ne ismétlődjön
 if (isset($_SESSION['siker'])) {
     $siker = $_SESSION['siker'];
     unset($_SESSION['siker']);

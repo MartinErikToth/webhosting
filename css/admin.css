@@ -1,4 +1,4 @@
-/* Alap stílusok */
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
@@ -12,7 +12,6 @@ h1 {
     color: #333;
 }
 
-/* Navigációs sáv */
 nav {
     background-color: #333;
     color: #fff;
@@ -50,7 +49,7 @@ nav ul li a:hover {
     background-color: #575757;
 }
 
-/* Admin forma */
+
 form {
     max-width: 600px;
     margin: 40px auto;
@@ -104,7 +103,7 @@ form p {
     color: green;
 }
 
-/* Üzenetek */
+
 p {
     text-align: center;
     font-size: 18px;
@@ -116,7 +115,6 @@ p.error {
     color: red;
 }
 
-/* Reszponzív dizájn */
 @media (max-width: 768px) {
     nav ul {
         text-align: left;
