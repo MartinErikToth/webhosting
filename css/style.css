@@ -1,0 +1,75 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    background-color: #1E2A38;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+.welcome {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 30px;
+}
+
+.menu-button {
+    background-color: #007BFF;
+    color: #fff;
+    text-align: center;
+    padding: 15px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    margin: 10px;
+    width: 200px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.menu-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-5px);
+}
+
+.menu-button:active {
+    background-color: #004085;
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .menu-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-button {
+        width: 80%;
+        max-width: 400px;
+    }
+}

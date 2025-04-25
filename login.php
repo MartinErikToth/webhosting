@@ -35,10 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($row) {
             if (password_verify($jelszo, $row['JELSZO'])) {
-                if (trim($row['BE_VAN_JELENTKEZVE']) === 'I') {
+                if (trim($row['BE_VAN_JELENTKEZVE']) === 'Y') {
                     $hiba = "Ez a felhasználó már be van jelentkezve.";
                 } else {
-                    $update = "UPDATE FELHASZNALOK SET BE_VAN_JELENTKEZVE = 'I' WHERE ID = :id";
+                    $update = "UPDATE FELHASZNALOK SET BE_VAN_JELENTKEZVE = 'Y' WHERE ID = :id";
                     $stid2 = oci_parse($conn, $update);
                     oci_bind_by_name($stid2, ":id", $row['ID']);
                     oci_execute($stid2);
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Bejelentkezés</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/login.css">
     <script>
         function setRequired(gomb) {
             const user = document.getElementById('felhasznalonev');
@@ -91,18 +91,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="post">
             <div class="input-box">
                 <label for="felhasznalonev">Felhasználónév:</label>
-                <input type="text" name="felhasznalonev" id="felhasznalonev">
+                <input type="text" name="felhasznalonev" id="felhasznalonev" required>
             </div>
 
             <div class="input-box">
                 <label for="jelszo">Jelszó:</label>
-                <input type="password" name="jelszo" id="jelszo">
+                <input type="password" name="jelszo" id="jelszo" required>
             </div>
 
             <div class="button-box">
-                <button type="submit" name="belepes" onclick="setRequired('belepes')">Belépés</button>
-                <button type="submit" name="guest" onclick="setRequired('guest')">Folytatás mint vendég</button>
-                <button type="submit" name="vissza" onclick="setRequired('vissza')">Vissza</button>
+                <button type="submit" name="belepes">Belépés</button>
+                <button type="button" onclick="window.location.href='singup.php';">Regisztráció</button>
             </div>
         </form>
 
