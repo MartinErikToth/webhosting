@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     oci_free_statement($stid2);
                     oci_free_statement($stid);
                     oci_close($conn);
-                    header("Location: menu.php");
+                    header("Location: index.php");
                     exit;
                 }
             } else {

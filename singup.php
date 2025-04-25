@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (isset($_POST['guest'])) {
-        $_SESSION['user_id'] = 'guest';
         header("Location: index.php");
         exit;
     }
@@ -56,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     oci_free_statement($stid2);
                     oci_free_statement($stid);
                     oci_close($conn);
-                    header("Location: menu.php");
+                    header("Location: login.php");
                     exit;
                 } else {
                     $hiba = "Hiba történt a regisztráció során.";
@@ -115,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <div class="button-box">
                 <button type="submit" name="regisztracio" onclick="setRequired('regisztracio')">Regisztráció</button>
-                <button type="submit" name="guest" onclick="setRequired('guest')">Folytatás vendégként</button>
+                <button type="submit" name="guest" onclick="window.location.href='index.php';">Folytatás vendégként</button>
                 <button type="button" onclick="window.location.href='login.php';">Van fiókod? Jelentkezz be!</button>
             </div>
         </form>
