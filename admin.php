@@ -1,31 +1,28 @@
 <?php
+session_start();
 // Adatbázis kapcsolat (Ezt módosítani kell a saját beállításaik szerint)
+/* Gép: 
 $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
-                    '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))',
-                    'UTF8');
+    '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
+*/
 
-// Üzenet a sikeres vagy hibás csomag felvitelről
+/* Laptop: */
+$conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
+    '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=11521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
+
 $message = '';
 
-// Ellenőrizzük, hogy az admin be van jelentkezve (szerep Szerkeszto)
-session_start();
-
-// Ha az űrlap elküldésre került
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Validáljuk az adatokat
     $csomagnev = $_POST['csomagnev'];
     $csomagar = $_POST['csomagar'];
 
     if (!empty($csomagnev) && !empty($csomagar)) {
-        // SQL lekérdezés a csomag beszúrásához
         $query = "INSERT INTO DIJCSOMAG (CSOMAGNEV, CSOMAG_AR) VALUES (:csomagnev, :csomagar)";
         $stid = oci_parse($conn, $query);
 
-        // Paraméterek kötése
         oci_bind_by_name($stid, ":csomagnev", $csomagnev);
         oci_bind_by_name($stid, ":csomagar", $csomagar);
 
-        // Lekérdezés végrehajtása
         if (oci_execute($stid)) {
             $message = "Csomag sikeresen felvéve!";
         } else {
@@ -40,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 oci_close($conn);
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,6 +47,7 @@ oci_close($conn);
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
+<?php include 'header.php'; ?>
     <main>
         <h1>Csomag felvitele</h1>
 

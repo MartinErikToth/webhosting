@@ -1,6 +1,13 @@
 <?php
+/* Gép: 
 $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
     '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
+*/
+
+/* Laptop: */
+$conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
+    '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=11521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
+
 
 $felhasznalo_id = $_SESSION['user_id'] ?? null;
 $hiba = "";
