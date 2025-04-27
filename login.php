@@ -18,7 +18,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (isset($_POST['belepes'])) {
-        $conn = oci_connect("C##R6LBDN", "C##R6LBDN", "//localhost/XEPDB1");
+        /* Gép: 
+        $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
+            '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
+        */
+
+        /* Laptop: */
+        $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
+        '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=11521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
+
         if (!$conn) {
             $e = oci_error();
             die("Kapcsolódási hiba: " . $e['message']);
@@ -46,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     oci_free_statement($stid2);
                     oci_free_statement($stid);
                     oci_close($conn);
-                    header("Location: menu.php");
+                    header("Location: index.php");
                     exit;
                 }
             } else {

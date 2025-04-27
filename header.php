@@ -1,3 +1,8 @@
+<?php 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,12 +18,17 @@
         </div>
         <ul class="nav-links">
             <li><a href="index.php">Kezdőlap</a></li>
-            <li><a href="buying.php">Domain vásárlás</a></li>
-            <li><a href="my_recipt.php">Saját nyugták</a></li>
-            <li><a href="profile.php">Profilom</a></li>
-            <li><a href="about.php">Rólunk</a></li>
-            <li><a href="contact.php">Kapcsolat</a></li>
-            <li><a href="logout.php">Kijelentkezés</a></li>
+            <li><a href="webszolgaltatasok.php">Domain vásárlás</a></li>
+            <li><a href="tudastar.php">Tudástár</a></li>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li><a href="profile.php">Profilom</a></li>
+                <li><a href="logout.php">Kijelentkezés</a></li>
+            <?php else: ?>
+                <li><a href="login.php">Bejelentkezés</a></li>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['user_id'])): ?> 
+                <li><a href="admin.php">Admin</a></li>
+            <?php endif; ?>
         </ul>
     </nav>
 </header>

@@ -6,10 +6,8 @@
     <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
-<div class="content">
     <footer>
         <p>&copy; 2025 WebHosting | Minden jog fenntartva</p>
     </footer>
-</div>
 </body>
 </html>
