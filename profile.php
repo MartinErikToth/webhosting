@@ -32,41 +32,47 @@ if (!empty($user['ADOSZAM'])) {
     oci_free_statement($stid);
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) {
     $szamlaszam = $_POST['szamlaszam'];
     $adoszam = $_POST['adoszam'];
 
-    $getLastIdQuery = "SELECT MAX(ID) AS MAX_ID FROM SZAMLAK";
+    // 1. Lekérdezzük a legnagyobb ID-t a SZAMLAK táblából
+    $getLastIdQuery = "SELECT NVL(MAX(ID), 0) AS MAX_ID FROM SZAMLAK";
     $stid = oci_parse($conn, $getLastIdQuery);
     oci_execute($stid);
     $row = oci_fetch_assoc($stid);
     $lastId = $row['MAX_ID'];
     oci_free_statement($stid);
 
-    $newId = $lastId + 1;
+    $newId = $lastId + 1; // Új ID kiszámítása
 
-
+    // 2. Beszúrás a SZAMLAK táblába
     $insertSzamla = "INSERT INTO SZAMLAK (ID, SZAMLASZAM, TERMEKMEGNEVEZES, VEVO_ADOSZAMA)
-                 VALUES (SZAMLAK_SEQ.NEXTVAL, :szamlaszam, 'Alap Web Hosting csomag', :adoszam)";
+                     VALUES (:id, :szamlaszam, 'Alap Web Hosting csomag', :adoszam)";
     $insStid = oci_parse($conn, $insertSzamla);
     oci_bind_by_name($insStid, ":id", $newId);
     oci_bind_by_name($insStid, ":szamlaszam", $szamlaszam);
     oci_bind_by_name($insStid, ":adoszam", $adoszam);
-    oci_execute($insStid);
-    oci_free_statement($insStid);
 
+    // 3. FELHASZNALOK frissítése
     $updateQuery = "UPDATE FELHASZNALOK SET SZAMLASZAM = :szamlaszam, ADOSZAM = :adoszam WHERE ID = :id";
     $stid = oci_parse($conn, $updateQuery);
     oci_bind_by_name($stid, ":szamlaszam", $szamlaszam);
     oci_bind_by_name($stid, ":adoszam", $adoszam);
     oci_bind_by_name($stid, ":id", $id);
-    oci_execute($stid);
+    
+    if (!oci_execute($stid)) {
+        $e = oci_error($stid);
+        echo "Hiba a FELHASZNALOK frissítésekor: " . $e['message'];
+        exit();
+    }
     oci_free_statement($stid);
 
-    header("Location: profile.php"); 
+    header("Location: profile.php");
     exit();
 }
+
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_profile'])) {
     $deleteQuery = "DELETE FROM FELHASZNALOK WHERE ID = :id";
@@ -118,8 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         }
     }
 }
-
-oci_close($conn);
 ?>
 
 <!DOCTYPE html>
