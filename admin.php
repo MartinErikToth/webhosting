@@ -1,34 +1,22 @@
 <?php
-// Adatbázis kapcsolat (Ezt módosítani kell a saját beállításaik szerint)
+session_start();
 $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
                     '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))',
                     'UTF8');
 
-// Üzenet a sikeres vagy hibás csomag felvitelről
 $message = '';
-
-// Ellenőrizzük, hogy az admin be van jelentkezve (szerep Szerkeszto)
-session_start();
-
-// Ha az űrlap elküldésre került
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Validáljuk az adatokat
     $csomagnev = $_POST['csomagnev'];
     $csomagar = $_POST['csomagar'];
-    $szolgaltatasNev = $_POST['szolgaltatas_nev'];  // A szolgáltatás neve most az input mezőből jön
+    $szolgaltatasNev = $_POST['szolgaltatas_nev'];  
 
     if (!empty($csomagnev) && !empty($csomagar) && !empty($szolgaltatasNev)) {
-        // SQL lekérdezés a csomag beszúrásához
         $query = "INSERT INTO DIJCSOMAG (CSOMAGNEV, CSOMAG_AR) VALUES (:csomagnev, :csomagar)";
         $stid = oci_parse($conn, $query);
 
-        // Paraméterek kötése
         oci_bind_by_name($stid, ":csomagnev", $csomagnev);
         oci_bind_by_name($stid, ":csomagar", $csomagar);
-
-        // Lekérdezés végrehajtása
         if (oci_execute($stid)) {
-            // SQL lekérdezés a szolgáltatás beszúrásához
             $query2 = "INSERT INTO WEB_SZOLGALTATAS (
                            SZOLGALTATAS_NEV, 
                            SZOLGALTATAS_TIPUS, 
@@ -39,16 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                        VALUES (:szolgaltatas_nev, :csomagnev, :csomagar, 'Y', SYSDATE, NULL)";
             $stid2 = oci_parse($conn, $query2);
 
-            // Paraméterek kötése a második lekérdezéshez
             oci_bind_by_name($stid2, ":szolgaltatas_nev", $szolgaltatasNev);
             oci_bind_by_name($stid2, ":csomagnev", $csomagnev);
             oci_bind_by_name($stid2, ":csomagar", $csomagar);
 
-            // Lekérdezés végrehajtása
             if (oci_execute($stid2)) {
-                // Üzenet tárolása a SESSION-ben
                 $_SESSION['message'] = "Csomag és szolgáltatás sikeresen felvéve!";
-                // Az átirányítás után nem történik új POST kérés
                 header("Location: admin.php"); 
                 exit;
             } else {
@@ -73,18 +57,17 @@ oci_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Csomag felvitele</title>
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/a.css">
 </head>
 <body>
+<?php include 'header.php'; ?>
     <main>
         <h1>Csomag felvitele</h1>
 
         <?php 
-        // Ha van üzenet a session-ben, akkor kiírjuk
         if (isset($_SESSION['message'])): ?>
             <p class="success"><?php echo $_SESSION['message']; ?></p>
             <?php 
-            // Üzenet törlése az újratöltés előtt
             unset($_SESSION['message']);
         endif; 
         ?>

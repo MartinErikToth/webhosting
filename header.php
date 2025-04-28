@@ -2,6 +2,10 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+echo '<pre>';
+var_dump($_SESSION);
+echo '</pre>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +30,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <?php else: ?>
                 <li><a href="login.php">Bejelentkezés</a></li>
             <?php endif; ?>
-            <?php if (isset($_SESSION['user_id'])): ?> 
+            <?php if (isset($_SESSION['user_id'], $_SESSION['szerep']) && strtolower(trim($_SESSION['szerep'])) === 'szerkeszto'): ?>
                 <li><a href="admin.php">Admin</a></li>
             <?php endif; ?>
         </ul>

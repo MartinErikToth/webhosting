@@ -10,7 +10,7 @@ if (!$conn) {
     exit;
 }
 
-// Kérdés beküldése
+
 if (isset($_POST['submit'])) {
     $tipus = $_POST['tipus'];
     $kerdes = $_POST['kerdes'];
@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
     $bejegyzesszama = $row['NEXT_BEJEGYZES_SZAMA']; 
     oci_free_statement($stid);
 
-    // Kérdés beszúrása az adatbázisba
+
     $sql = "INSERT INTO BEJEGYZES (BEJEGYZES_SZAMA, TIPUS, KERDES, VALASZ, MIKOR_KESZULT) 
         VALUES (:bejegyzesszama, :tipus, :kerdes, :valasz, TO_TIMESTAMP(:mikorkeszult, 'YYYY-MM-DD HH24:MI:SS'))";
     $stid = oci_parse($conn, $sql);
@@ -67,7 +67,7 @@ oci_close($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tudásbázis - Kérdés feltevés</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/t.css">
+    <link rel="stylesheet" href="css/tudastar.css">
     <script src="js/tudastar.js"></script>
 </head>
 <body>
