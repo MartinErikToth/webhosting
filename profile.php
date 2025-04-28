@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'header.php';
+
 $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
     '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
 
@@ -68,6 +68,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) 
     exit();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_profile'])) {
+    $deleteQuery = "DELETE FROM FELHASZNALOK WHERE ID = :id";
+    $stid = oci_parse($conn, $deleteQuery);
+    oci_bind_by_name($stid, ":id", $id);
+    oci_execute($stid);
+    oci_free_statement($stid);
+
+    session_destroy();
+    header("Location: login.php");
+    exit();
+}
+
 $vevo_adoszama = '';
 $vevo_neve = '';
 $vevo_cime = '';
@@ -115,11 +127,11 @@ oci_close($conn);
 <head>
     <meta charset="UTF-8">
     <title>Profilom</title>
-    <link rel="stylesheet" href="css/p.css">
+    <link rel="stylesheet" href="css/profil.css">
     <script src="js/profile.js"></script>
 </head>
 <body>
-
+<?php include 'header.php'; ?>
 <div class="container">
     <div class="sidebar">
         <div class="profile-header">
@@ -155,7 +167,7 @@ oci_close($conn);
                 <h3>Számlázási adatok megadása</h3>
                 <input type="text" name="szamlaszam" placeholder="Számlaszám" required>
                 <input type="text" name="adoszam" placeholder="Adószám" required>
-                <button type="submit" name="szamlazas_submit">Számlázási adatok mentése</button>
+                <button type="submit" name="szamlazas_submit">Adatok mentése</button>
             </form>
         </div>
 
@@ -165,7 +177,7 @@ oci_close($conn);
                 <input type="text" id="vevo_adoszama" placeholder="Adószám"name="vevo_adoszama" value="<?php echo htmlspecialchars($vevo_adoszama); ?>" required>
                 <input type="text" id="vevo_neve" name="vevo_neve" placeholder="Minta Név" value="<?php echo htmlspecialchars($vevo_neve); ?>" required>
                 <input type="text" id="vevo_cime" name="vevo_cime" placeholder="Cím" value="<?php echo htmlspecialchars($vevo_cime); ?>" required>
-                <button type="submit" name="submit">Számlázási adatok mentése</button>
+                <button type="submit" name="submit">Adatok mentése</button>
             </form>
         </div>
 
@@ -176,6 +188,10 @@ oci_close($conn);
                 <input type="email" name="email" placeholder="Új email" value="<?php echo htmlspecialchars($user['EMAIL']); ?>" required>
                 <input type="password" name="jelszo" placeholder="Új jelszó (ha nem szeretnél változtatni, hagyd üresen)">
                 <button type="submit">Adatok frissítése</button>
+            </form>
+
+            <form method="post" onsubmit="return confirm('Biztosan törölni szeretnéd a profilodat?');">
+                <button type="submit" name="delete_profile" class="delete-button">Profil törlése</button>
             </form>
         </div>
 

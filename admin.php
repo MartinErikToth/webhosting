@@ -15,8 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validáljuk az adatokat
     $csomagnev = $_POST['csomagnev'];
     $csomagar = $_POST['csomagar'];
+    $szolgaltatasNev = $_POST['szolgaltatas_nev'];  // A szolgáltatás neve most az input mezőből jön
 
-    if (!empty($csomagnev) && !empty($csomagar)) {
+    if (!empty($csomagnev) && !empty($csomagar) && !empty($szolgaltatasNev)) {
         // SQL lekérdezés a csomag beszúrásához
         $query = "INSERT INTO DIJCSOMAG (CSOMAGNEV, CSOMAG_AR) VALUES (:csomagnev, :csomagar)";
         $stid = oci_parse($conn, $query);
@@ -27,13 +28,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Lekérdezés végrehajtása
         if (oci_execute($stid)) {
-            $message = "Csomag sikeresen felvéve!";
+            // SQL lekérdezés a szolgáltatás beszúrásához
+            $query2 = "INSERT INTO WEB_SZOLGALTATAS (
+                           SZOLGALTATAS_NEV, 
+                           SZOLGALTATAS_TIPUS, 
+                           SZOLGALTATAS_EGYSEGAR, 
+                           AKTIV_E, 
+                           HASZNALAT_KEZDETE, 
+                           HASZNALAT_VEGE) 
+                       VALUES (:szolgaltatas_nev, :csomagnev, :csomagar, 'Y', SYSDATE, NULL)";
+            $stid2 = oci_parse($conn, $query2);
+
+            // Paraméterek kötése a második lekérdezéshez
+            oci_bind_by_name($stid2, ":szolgaltatas_nev", $szolgaltatasNev);
+            oci_bind_by_name($stid2, ":csomagnev", $csomagnev);
+            oci_bind_by_name($stid2, ":csomagar", $csomagar);
+
+            // Lekérdezés végrehajtása
+            if (oci_execute($stid2)) {
+                // Üzenet tárolása a SESSION-ben
+                $_SESSION['message'] = "Csomag és szolgáltatás sikeresen felvéve!";
+                // Az átirányítás után nem történik új POST kérés
+                header("Location: admin.php"); 
+                exit;
+            } else {
+                $_SESSION['message'] = "Hiba történt a szolgáltatás felvitele közben!";
+            }
+            oci_free_statement($stid2);
         } else {
-            $message = "Hiba történt a csomag felvitele közben!";
+            $_SESSION['message'] = "Hiba történt a csomag felvitele közben!";
         }
         oci_free_statement($stid);
     } else {
-        $message = "Kérjük, töltsd ki az összes mezőt!";
+        $_SESSION['message'] = "Kérjük, töltsd ki az összes mezőt!";
     }
 }
 
@@ -52,9 +79,15 @@ oci_close($conn);
     <main>
         <h1>Csomag felvitele</h1>
 
-        <?php if ($message): ?>
-            <p class="success"><?php echo $message; ?></p>
-        <?php endif; ?>
+        <?php 
+        // Ha van üzenet a session-ben, akkor kiírjuk
+        if (isset($_SESSION['message'])): ?>
+            <p class="success"><?php echo $_SESSION['message']; ?></p>
+            <?php 
+            // Üzenet törlése az újratöltés előtt
+            unset($_SESSION['message']);
+        endif; 
+        ?>
 
         <form method="POST" action="admin.php">
             <label for="csomagnev">Csomag neve:</label>
@@ -62,6 +95,9 @@ oci_close($conn);
 
             <label for="csomagar">Csomag ára:</label>
             <input type="number" id="csomagar" name="csomagar" required><br><br>
+
+            <label for="szolgaltatas_nev">Szolgáltatás neve:</label>
+            <input type="text" id="szolgaltatas_nev" name="szolgaltatas_nev" required><br><br>
 
             <button type="submit">Csomag felvétele</button>
         </form>
