@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) 
 
 
     $insertSzamla = "INSERT INTO SZAMLAK (ID, SZAMLASZAM, TERMEKMEGNEVEZES, VEVO_ADOSZAMA)
-                     VALUES (:id, :szamlaszam, 'Alap Web Hosting csomag', :adoszam)";
+                 VALUES (SZAMLAK_SEQ.NEXTVAL, :szamlaszam, 'Alap Web Hosting csomag', :adoszam)";
     $insStid = oci_parse($conn, $insertSzamla);
     oci_bind_by_name($insStid, ":id", $newId);
     oci_bind_by_name($insStid, ":szamlaszam", $szamlaszam);
