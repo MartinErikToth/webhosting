@@ -1,15 +1,8 @@
 <?php
 session_start();
-include 'header.php';
-/* Gép: 
+
 $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
     '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
-*/
-
-/* Laptop: */
-$conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
-    '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=11521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
-
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] === 'guest') {
     header("Location: login.php");
@@ -39,12 +32,25 @@ if (!empty($user['ADOSZAM'])) {
     oci_free_statement($stid);
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) {
     $szamlaszam = $_POST['szamlaszam'];
     $adoszam = $_POST['adoszam'];
+    $updateQuery = "UPDATE FELHASZNALOK SET SZAMLASZAM = :szamlaszam, ADOSZAM = :adoszam WHERE ID = :id";
+    $stid = oci_parse($conn, $updateQuery);
+    oci_bind_by_name($stid, ":szamlaszam", $szamlaszam);
+    oci_bind_by_name($stid, ":adoszam", $adoszam);
+    oci_bind_by_name($stid, ":id", $id);
 
-    $getLastIdQuery = "SELECT MAX(ID) AS MAX_ID FROM SZAMLAK";
+    if (!oci_execute($stid)) {
+        $e = oci_error($stid);
+        echo "Hiba a FELHASZNALOK frissítésekor: " . $e['message'];
+        exit();
+    }
+    oci_free_statement($stid);
+
+    oci_commit($conn);
+
+    $getLastIdQuery = "SELECT NVL(MAX(ID), 0) AS MAX_ID FROM SZAMLAK";
     $stid = oci_parse($conn, $getLastIdQuery);
     oci_execute($stid);
     $row = oci_fetch_assoc($stid);
@@ -53,25 +59,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) 
 
     $newId = $lastId + 1;
 
-
     $insertSzamla = "INSERT INTO SZAMLAK (ID, SZAMLASZAM, TERMEKMEGNEVEZES, VEVO_ADOSZAMA)
                      VALUES (:id, :szamlaszam, 'Alap Web Hosting csomag', :adoszam)";
     $insStid = oci_parse($conn, $insertSzamla);
     oci_bind_by_name($insStid, ":id", $newId);
     oci_bind_by_name($insStid, ":szamlaszam", $szamlaszam);
     oci_bind_by_name($insStid, ":adoszam", $adoszam);
-    oci_execute($insStid);
+
+    if (!oci_execute($insStid)) {
+        $e = oci_error($insStid);
+        echo "Hiba a SZAMLAK táblába beszúráskor: " . $e['message'];
+        exit();
+    }
     oci_free_statement($insStid);
 
-    $updateQuery = "UPDATE FELHASZNALOK SET SZAMLASZAM = :szamlaszam, ADOSZAM = :adoszam WHERE ID = :id";
-    $stid = oci_parse($conn, $updateQuery);
-    oci_bind_by_name($stid, ":szamlaszam", $szamlaszam);
-    oci_bind_by_name($stid, ":adoszam", $adoszam);
+    header("Location: profile.php");
+    exit();
+}
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_profile'])) {
+    $deleteQuery = "DELETE FROM FELHASZNALOK WHERE ID = :id";
+    $stid = oci_parse($conn, $deleteQuery);
     oci_bind_by_name($stid, ":id", $id);
     oci_execute($stid);
     oci_free_statement($stid);
 
-    header("Location: profile.php"); 
+    session_destroy();
+    header("Location: login.php");
     exit();
 }
 
@@ -113,8 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         }
     }
 }
-
-oci_close($conn);
 ?>
 
 <!DOCTYPE html>
@@ -122,11 +136,11 @@ oci_close($conn);
 <head>
     <meta charset="UTF-8">
     <title>Profilom</title>
-    <link rel="stylesheet" href="css/p.css">
+    <link rel="stylesheet" href="css/profil.css">
     <script src="js/profile.js"></script>
 </head>
 <body>
-
+<?php include 'header.php'; ?>
 <div class="container">
     <div class="sidebar">
         <div class="profile-header">
@@ -162,7 +176,7 @@ oci_close($conn);
                 <h3>Számlázási adatok megadása</h3>
                 <input type="text" name="szamlaszam" placeholder="Számlaszám" required>
                 <input type="text" name="adoszam" placeholder="Adószám" required>
-                <button type="submit" name="szamlazas_submit">Számlázási adatok mentése</button>
+                <button type="submit" name="szamlazas_submit">Adatok mentése</button>
             </form>
         </div>
 
@@ -172,7 +186,7 @@ oci_close($conn);
                 <input type="text" id="vevo_adoszama" placeholder="Adószám"name="vevo_adoszama" value="<?php echo htmlspecialchars($vevo_adoszama); ?>" required>
                 <input type="text" id="vevo_neve" name="vevo_neve" placeholder="Minta Név" value="<?php echo htmlspecialchars($vevo_neve); ?>" required>
                 <input type="text" id="vevo_cime" name="vevo_cime" placeholder="Cím" value="<?php echo htmlspecialchars($vevo_cime); ?>" required>
-                <button type="submit" name="submit">Számlázási adatok mentése</button>
+                <button type="submit" name="submit">Adatok mentése</button>
             </form>
         </div>
 
@@ -183,6 +197,10 @@ oci_close($conn);
                 <input type="email" name="email" placeholder="Új email" value="<?php echo htmlspecialchars($user['EMAIL']); ?>" required>
                 <input type="password" name="jelszo" placeholder="Új jelszó (ha nem szeretnél változtatni, hagyd üresen)">
                 <button type="submit">Adatok frissítése</button>
+            </form>
+
+            <form method="post" onsubmit="return confirm('Biztosan törölni szeretnéd a profilodat?');">
+                <button type="submit" name="delete_profile" class="delete-button">Profil törlése</button>
             </form>
         </div>
 

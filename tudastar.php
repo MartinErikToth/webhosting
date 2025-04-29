@@ -1,19 +1,15 @@
 <?php
-/* Gép: 
-$conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
-    '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
-*/
 
-/* Laptop: */
 $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
-    '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=11521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
-
+'(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))',
+'UTF8');
 
 if (!$conn) {
     $e = oci_error();
     echo "Kapcsolódás sikertelen: " . $e['message'];
     exit;
 }
+
 
 if (isset($_POST['submit'])) {
     $tipus = $_POST['tipus'];
@@ -27,6 +23,7 @@ if (isset($_POST['submit'])) {
     $row = oci_fetch_assoc($stid);
     $bejegyzesszama = $row['NEXT_BEJEGYZES_SZAMA']; 
     oci_free_statement($stid);
+
 
     $sql = "INSERT INTO BEJEGYZES (BEJEGYZES_SZAMA, TIPUS, KERDES, VALASZ, MIKOR_KESZULT) 
         VALUES (:bejegyzesszama, :tipus, :kerdes, :valasz, TO_TIMESTAMP(:mikorkeszult, 'YYYY-MM-DD HH24:MI:SS'))";
@@ -70,7 +67,7 @@ oci_close($conn);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tudásbázis - Kérdés feltevés</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/t.css">
+    <link rel="stylesheet" href="css/tudastar.css">
     <script src="js/tudastar.js"></script>
 </head>
 <body>

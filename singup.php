@@ -17,20 +17,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['regisztracio'])) {
         $felhasznalonev = $_POST['felhasznalonev'];
         $jelszo = $_POST['jelszo'];
+        $jelszo1 = $_POST['jelszo1'];
         $email = $_POST['email'];
 
-        if (empty($felhasznalonev) || empty($jelszo) || empty($email)) {
+        if (empty($felhasznalonev) || empty($jelszo) || empty($jelszo1) || empty($email)) {
             $hiba = "Minden mezőt ki kell tölteni!";
+        } elseif ($jelszo != $jelszo1) {
+            $hiba = "A két jelszó nem egyezik!";
         } else {
-            /* Gép: 
             $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
-                '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
-            */
-
-            /* Laptop: */
-            $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
-            '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=11521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
-
+                    '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))',
+                    'UTF8');
             if (!$conn) {
                 $e = oci_error();
                 die("Kapcsolódási hiba: " . $e['message']);
@@ -118,9 +115,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <input type="password" name="jelszo" id="jelszo">
             </div>
 
+            <div class="input-box">
+                <label for="jelszo1">Jelszó mégegyszer:</label>
+                <input type="password" name="jelszo1" id="jelszo1">
+            </div>
+
             <div class="button-box">
                 <button type="submit" name="regisztracio" onclick="setRequired('regisztracio')">Regisztráció</button>
-                <button type="submit" name="guest" onclick="window.location.href='index.php';">Folytatás vendégként</button>
+                <button type="submit" name="guest" onclick="window.location.href='index.php';">Folytatás látógatóként!</button>
                 <button type="button" onclick="window.location.href='login.php';">Van fiókod? Jelentkezz be!</button>
             </div>
         </form>
