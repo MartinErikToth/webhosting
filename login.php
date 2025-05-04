@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     oci_bind_by_name($stid2, ":id", $row['ID']);
                     oci_execute($stid2);
                     $_SESSION['user_id'] = $row['ID'];
-                    $_SESSION['szerep'] = $row['SZEREP'];
+                    $_SESSION['szerep'] = strtolower(trim($row['SZEREP']));
                     oci_free_statement($stid2);
                     oci_free_statement($stid);
                     oci_close($conn);

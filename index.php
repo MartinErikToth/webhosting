@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-
 <?php include 'header.php'; ?>
 
 <section class="hero">
