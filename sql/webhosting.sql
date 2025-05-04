@@ -459,20 +459,6 @@ END;
 /
 ALTER TRIGGER "TRG_AR_VALTOZAS" ENABLE;
 --------------------------------------------------------
---  DDL for Trigger TRG_AUTOMATIKUS_DATUM_BEALL
---------------------------------------------------------
-
-  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_AUTOMATIKUS_DATUM_BEALL" BEFORE INSERT 
-ON C##R6LBDN.WEB_SZOLGALTATAS
-FOR EACH ROW
-BEGIN
-  IF :NEW.HASZNALAT_KEZDETE IS NULL THEN
-    :NEW.HASZNALAT_KEZDETE := SYSDATE;
-  END IF;
-END;
-/
-ALTER TRIGGER "TRG_AUTOMATIKUS_DATUM_BEALL" ENABLE;
---------------------------------------------------------
 --  DDL for Trigger TRG_EMAIL_ELLENORZES
 --------------------------------------------------------
 
