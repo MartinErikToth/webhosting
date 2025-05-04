@@ -35,23 +35,8 @@ if (!empty($user['ADOSZAM'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) {
     $szamlaszam = $_POST['szamlaszam'];
     $adoszam = $_POST['adoszam'];
-    $callProc = oci_parse($conn, "BEGIN SZAMLASZAM_ADOSZAM_FRISSITES(:id, :szamlaszam, :adoszam); END;");
-    oci_bind_by_name($callProc, ":id", $id);
-    oci_bind_by_name($callProc, ":szamlaszam", $szamlaszam);
-    oci_bind_by_name($callProc, ":adoszam", $adoszam);
-    oci_execute($callProc);
-    oci_free_statement($callProc);
 
-    if (!oci_execute($stid)) {
-        $e = oci_error($stid);
-        echo "Hiba a FELHASZNALOK frissítésekor: " . $e['message'];
-        exit();
-    }
-    oci_free_statement($stid);
-
-    oci_commit($conn);
-
-    $getLastIdQuery = "SELECT NVL(MAX(ID), 0) AS MAX_ID FROM SZAMLAK";
+    $getLastIdQuery = "SELECT MAX(ID) AS MAX_ID FROM SZAMLAK";
     $stid = oci_parse($conn, $getLastIdQuery);
     oci_execute($stid);
     $row = oci_fetch_assoc($stid);
@@ -60,21 +45,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) 
 
     $newId = $lastId + 1;
 
+
     $insertSzamla = "INSERT INTO SZAMLAK (ID, SZAMLASZAM, TERMEKMEGNEVEZES, VEVO_ADOSZAMA)
-                     VALUES (:id, :szamlaszam, 'Alap Web Hosting csomag', :adoszam)";
+                 VALUES (SZAMLAK_SEQ.NEXTVAL, :szamlaszam, 'Alap Web Hosting csomag', :adoszam)";
     $insStid = oci_parse($conn, $insertSzamla);
     oci_bind_by_name($insStid, ":id", $newId);
     oci_bind_by_name($insStid, ":szamlaszam", $szamlaszam);
     oci_bind_by_name($insStid, ":adoszam", $adoszam);
-
-    if (!oci_execute($insStid)) {
-        $e = oci_error($insStid);
-        echo "Hiba a SZAMLAK táblába beszúráskor: " . $e['message'];
-        exit();
-    }
+    oci_execute($insStid);
     oci_free_statement($insStid);
 
-    header("Location: profile.php");
+    $callProc = oci_parse($conn, "BEGIN SZAMLASZAM_ADOSZAM_FRISSITES(:id, :szamlaszam, :adoszam); END;");
+    oci_bind_by_name($callProc, ":id", $id);
+    oci_bind_by_name($callProc, ":szamlaszam", $szamlaszam);
+    oci_bind_by_name($callProc, ":adoszam", $adoszam);
+    oci_execute($callProc);
+    oci_free_statement($callProc);
+
+    header("Location: profile.php"); 
     exit();
 }
 
