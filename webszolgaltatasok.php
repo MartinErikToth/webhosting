@@ -1,18 +1,13 @@
 <?php
 session_start();
-
-$conn = oci_connect(
-        'C##R6LBDN', 'C##R6LBDN',
-        '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))
-        (CONNECT_DATA=(SID=orania2)))', 'UTF8');
-
+$conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
+    '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SID=orania2)))', 'UTF8');
 
 $felhasznalo_id = $_SESSION['user_id'] ?? null;
-$szerep         = isset($_SESSION['szerep'])
-                    ? strtolower(trim($_SESSION['szerep']))
-                    : null;          
-
-$uzenet_siker = $uzenet_hiba = "";
+$uzenet_siker = $_SESSION['siker'] ?? "";
+$uzenet_hiba  = $_SESSION['hiba'] ?? "";
+unset($_SESSION['siker'], $_SESSION['hiba']);
+$szerep = isset($_SESSION['szerep']) ? strtolower(trim($_SESSION['szerep'])) : null;       
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['torol_csomagkod'])) {
 
@@ -36,32 +31,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['torol_csomagkod'])) {
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'
-    && isset($_POST['csomagkod'], $_POST['szamlaszam'])) {
-
-    $csomagkod  = $_POST['csomagkod'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csomagkod'], $_POST['szamlaszam'])) {
+    $csomagkod = $_POST['csomagkod'];
     $szamlaszam = $_POST['szamlaszam'];
 
     if ($felhasznalo_id && !empty($szamlaszam)) {
+        $vasarlas_sql = "INSERT INTO VASARLAS (FELHASZNALO_ID, SZAMLASZAM) VALUES (:felhasznalo_id, :szamlaszam)";
+        $stmt = oci_parse($conn, $vasarlas_sql);
+        oci_bind_by_name($stmt, ":felhasznalo_id", $felhasznalo_id);
+        oci_bind_by_name($stmt, ":szamlaszam", $szamlaszam);
 
-        $buy_sql = "INSERT INTO VASARLAS (FELHASZNALO_ID, SZAMLASZAM)
-                    VALUES (:uid, :szamlaszam)";
-        $buy_st  = oci_parse($conn, $buy_sql);
-        oci_bind_by_name($buy_st, ":uid",        $felhasznalo_id);
-        oci_bind_by_name($buy_st, ":szamlaszam", $szamlaszam);
-
-        if (oci_execute($buy_st)) {
-            $uzenet_siker = "Sikeres vásárlás!";
+        if (oci_execute($stmt)) {
+            $_SESSION['siker'] = "Sikeres vásárlás!";
         } else {
-            $uzenet_hiba  = "Hiba történt a vásárlás során!";
+            $_SESSION['hiba'] = "Hiba történt a vásárlás során!";
         }
-        oci_free_statement($buy_st);
 
+        oci_free_statement($stmt);
+
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;
     } else {
-        $uzenet_hiba = "Hiányzó adatok a vásárláshoz!";
+        $_SESSION['hiba'] = "Hiányzó adatok!";
     }
 }
-
 $list_sql = "SELECT * FROM DIJCSOMAG ORDER BY CSOMAG_AR";
 $list_st  = oci_parse($conn, $list_sql);
 oci_execute($list_st);
@@ -119,7 +112,6 @@ oci_execute($list_st);
         </tr>
     <?php endwhile; ?>
 </table>
-
 <?php include 'footer.php'; ?>
 </body>
 </html>
