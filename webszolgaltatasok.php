@@ -31,24 +31,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['torol_csomagkod'])) {
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csomagkod'], $_POST['szamlaszam'])) {
-    $csomagkod = $_POST['csomagkod'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlaszam'])) {
     $szamlaszam = $_POST['szamlaszam'];
 
-    if ($felhasznalo_id && !empty($szamlaszam)) {
-        $vasarlas_sql = "INSERT INTO VASARLAS (FELHASZNALO_ID, SZAMLASZAM) VALUES (:felhasznalo_id, :szamlaszam)";
-        $stmt = oci_parse($conn, $vasarlas_sql);
+    if (!empty($felhasznalo_id) && !empty($szamlaszam)) {
+        $stmt = oci_parse($conn, "BEGIN FELHASZNALO_VASAROL(:felhasznalo_id, :szamlaszam); END;");
         oci_bind_by_name($stmt, ":felhasznalo_id", $felhasznalo_id);
         oci_bind_by_name($stmt, ":szamlaszam", $szamlaszam);
 
         if (oci_execute($stmt)) {
             $_SESSION['siker'] = "Sikeres vásárlás!";
         } else {
-            $_SESSION['hiba'] = "Hiba történt a vásárlás során!";
+            $e = oci_error($stmt);
+            $_SESSION['hiba'] = "Hiba történt a vásárlás során: " . $e['message'];
         }
 
         oci_free_statement($stmt);
-
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit;
     } else {

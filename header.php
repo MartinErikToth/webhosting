@@ -27,7 +27,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 <li><a href="login.php">Bejelentkezés</a></li>
             <?php endif; ?>
             
-			<?php if (isset($_SESSION['user_id'], $_SESSION['szerep']) && $_SESSION['szerep'] === 'Szerkeszto'): ?>
+			<?php if (isset($_SESSION['user_id'], $_SESSION['szerep']) && $_SESSION['szerep'] === 'szerkeszto'): ?>
 				<li><a href="admin.php">Admin</a></li>
 			<?php endif; ?>
         </ul>
