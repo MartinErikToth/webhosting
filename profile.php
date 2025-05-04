@@ -35,20 +35,6 @@ if (!empty($user['ADOSZAM'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) {
     $szamlaszam = $_POST['szamlaszam'];
     $adoszam = $_POST['adoszam'];
-    $updateQuery = "UPDATE FELHASZNALOK SET SZAMLASZAM = :szamlaszam, ADOSZAM = :adoszam WHERE ID = :id";
-    $stid = oci_parse($conn, $updateQuery);
-    oci_bind_by_name($stid, ":szamlaszam", $szamlaszam);
-    oci_bind_by_name($stid, ":adoszam", $adoszam);
-    oci_bind_by_name($stid, ":id", $id);
-
-    if (!oci_execute($stid)) {
-        $e = oci_error($stid);
-        echo "Hiba a FELHASZNALOK frissítésekor: " . $e['message'];
-        exit();
-    }
-    oci_free_statement($stid);
-
-    oci_commit($conn);
 
     $getLastIdQuery = "SELECT NVL(MAX(ID), 0) AS MAX_ID FROM SZAMLAK";
     $stid = oci_parse($conn, $getLastIdQuery);
@@ -73,11 +59,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) 
     }
     oci_free_statement($insStid);
 
-    header("Location: profile.php");
+    $callProc = oci_parse($conn, "BEGIN SZAMLASZAM_ADOSZAM_FRISSITES(:id, :szamlaszam, :adoszam); END;");
+    oci_bind_by_name($callProc, ":id", $id);
+    oci_bind_by_name($callProc, ":szamlaszam", $szamlaszam);
+    oci_bind_by_name($callProc, ":adoszam", $adoszam);
+    oci_execute($callProc);
+    oci_free_statement($callProc);
+
+    header("Location: profile.php"); 
     exit();
 }
-
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_profile'])) {
     $deleteQuery = "DELETE FROM FELHASZNALOK WHERE ID = :id";

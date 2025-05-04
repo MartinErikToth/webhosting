@@ -44,27 +44,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $hiba = "Már létezik ilyen e-mail vagy felhasználónév.";
             } else {
                 $hashed = password_hash($jelszo, PASSWORD_DEFAULT);
-                $insert = "INSERT INTO FELHASZNALOK (BE_VAN_JELENTKEZVE, EMAIL, FELHASZNALONEV, JELSZO, SZEREP)
-                            VALUES ('N', :email, :fnev, :jelszo, 'Vendeg')
-                            RETURNING ID INTO :new_id";
-                $stid2 = oci_parse($conn, $insert);
-                oci_bind_by_name($stid2, ":email", $email);
-                oci_bind_by_name($stid2, ":fnev", $felhasznalonev);
-                oci_bind_by_name($stid2, ":jelszo", $hashed);
-                oci_bind_by_name($stid2, ":new_id", $new_id, -1, SQLT_INT);
+                $stmt = oci_parse($conn, "BEGIN regisztral_felhasznalo(:email, :fnev, :jelszo, :szerep, :user_id); END;");
+                $hashed = password_hash($jelszo, PASSWORD_DEFAULT);
+                $szerep = 'Vendeg';
+                $user_id = null;
 
-                if (oci_execute($stid2)) {
-                    $_SESSION['user_id'] = $new_id;
-                    oci_free_statement($stid2);
-                    oci_free_statement($stid);
-                    oci_close($conn);
+                oci_bind_by_name($stmt, ":email", $email);
+                oci_bind_by_name($stmt, ":fnev", $felhasznalonev);
+                oci_bind_by_name($stmt, ":jelszo", $hashed);
+                oci_bind_by_name($stmt, ":szerep", $szerep);
+                oci_bind_by_name($stmt, ":user_id", $user_id, -1, SQLT_INT);
+
+                if (oci_execute($stmt)) {
+                    $_SESSION['user_id'] = $user_id;
                     header("Location: login.php");
                     exit;
                 } else {
-                    $hiba = "Hiba történt a regisztráció során.";
+                    $e = oci_error($stmt);
+                    $hiba = "Hiba a regisztráció során: " . $e['message'];
                 }
             }
-
             oci_free_statement($stid);
             oci_close($conn);
         }
