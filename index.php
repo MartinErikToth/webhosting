@@ -1,4 +1,6 @@
-
+<?php
+session_start(); // akkor is ártalmatlan, ha header.php már elvégzi – fontos a feltételhez
+?>
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -14,10 +16,17 @@
     <div class="hero-content">
         <h2>Üdvözlünk a WebHosting platformon!</h2>
         <p>A legjobb hely a webhelyed számára, gyors, megbízható és biztonságos szolgáltatásokkal.</p>
-        <div class="cta-buttons">
-            <a href="singup.php" class="cta-button">Regisztráció</a>
-            <a href="login.php" class="cta-button">Bejelentkezés</a>
-        </div>
+
+        <?php if (!isset($_SESSION['user_id'])): // Vendégnek mutatjuk a CTA gombokat ?>
+            <div class="cta-buttons">
+                <a href="singup.php" class="cta-button">Regisztráció</a>
+                <a href="login.php" class="cta-button">Bejelentkezés</a>
+            </div>
+        <?php else: // Bejelentkezve – opcionálisan "Fiókom" gomb ?>
+            <div class="cta-buttons">
+                <a href="profile.php" class="cta-button">Fiókom</a>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 
