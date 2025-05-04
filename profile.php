@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) 
     $szamlaszam = $_POST['szamlaszam'];
     $adoszam = $_POST['adoszam'];
 
-    $getLastIdQuery = "SELECT MAX(ID) AS MAX_ID FROM SZAMLAK";
+    $getLastIdQuery = "SELECT NVL(MAX(ID), 0) AS MAX_ID FROM SZAMLAK";
     $stid = oci_parse($conn, $getLastIdQuery);
     oci_execute($stid);
     $row = oci_fetch_assoc($stid);
@@ -45,14 +45,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) 
 
     $newId = $lastId + 1;
 
-
     $insertSzamla = "INSERT INTO SZAMLAK (ID, SZAMLASZAM, TERMEKMEGNEVEZES, VEVO_ADOSZAMA)
-                 VALUES (SZAMLAK_SEQ.NEXTVAL, :szamlaszam, 'Alap Web Hosting csomag', :adoszam)";
+                     VALUES (:id, :szamlaszam, 'Alap Web Hosting csomag', :adoszam)";
     $insStid = oci_parse($conn, $insertSzamla);
     oci_bind_by_name($insStid, ":id", $newId);
     oci_bind_by_name($insStid, ":szamlaszam", $szamlaszam);
     oci_bind_by_name($insStid, ":adoszam", $adoszam);
-    oci_execute($insStid);
+
+    if (!oci_execute($insStid)) {
+        $e = oci_error($insStid);
+        echo "Hiba a SZAMLAK táblába beszúráskor: " . $e['message'];
+        exit();
+    }
     oci_free_statement($insStid);
 
     $callProc = oci_parse($conn, "BEGIN SZAMLASZAM_ADOSZAM_FRISSITES(:id, :szamlaszam, :adoszam); END;");
@@ -65,8 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) 
     header("Location: profile.php"); 
     exit();
 }
-
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_profile'])) {
     $deleteQuery = "DELETE FROM FELHASZNALOK WHERE ID = :id";
