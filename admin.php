@@ -56,9 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['answer_submit'])) {
     if ($valasz === '') {
         $_SESSION['kb_msg'] = 'A válasz mező nem lehet üres!';
     } else {
-        $stid_ans = oci_parse($conn, 'UPDATE BEJEGYZES SET VALASZ = :valasz WHERE BEJEGYZES_SZAMA = :id');
-        oci_bind_by_name($stid_ans, ':valasz', $valasz);
+        $stid_ans = oci_parse($conn, 'BEGIN update_valasz(:id, :valasz); END;');
         oci_bind_by_name($stid_ans, ':id', $id);
+        oci_bind_by_name($stid_ans, ':valasz', $valasz);
 
         if (oci_execute($stid_ans, OCI_NO_AUTO_COMMIT)) {
             oci_commit($conn);
@@ -68,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['answer_submit'])) {
             oci_rollback($conn);
             $_SESSION['kb_msg'] = 'Mentési hiba: ' . $e['message'];
         }
+
         oci_free_statement($stid_ans);
     }
     header('Location: admin.php#tudastar');
