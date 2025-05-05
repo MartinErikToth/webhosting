@@ -1,5 +1,5 @@
 <?php
-session_start(); // akkor is ártalmatlan, ha header.php már elvégzi – fontos a feltételhez
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="hu">
