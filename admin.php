@@ -21,7 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csomagnev'])) {
 
     if ($csomagnev === '' || $csomagar === '' || $szolgaltatasNev === '') {
         $_SESSION['pkg_msg'] = 'Kérjük, tölts ki minden mezőt!';
-    } else {  
+    } else {
+        
         $stid_pkg = oci_parse($conn, "INSERT INTO DIJCSOMAG (CSOMAGNEV, CSOMAG_AR) VALUES (:nev, :ar)");
         oci_bind_by_name($stid_pkg, ':nev', $csomagnev);
         oci_bind_by_name($stid_pkg, ':ar',  $csomagar);
@@ -55,9 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['answer_submit'])) {
     if ($valasz === '') {
         $_SESSION['kb_msg'] = 'A válasz mező nem lehet üres!';
     } else {
-        $stid_ans = oci_parse($conn, 'BEGIN update_valasz(:id, :valasz); END;');
-        oci_bind_by_name($stid_ans, ':id', $id);
+        $stid_ans = oci_parse($conn, 'UPDATE BEJEGYZES SET VALASZ = :valasz WHERE BEJEGYZES_SZAMA = :id');
         oci_bind_by_name($stid_ans, ':valasz', $valasz);
+        oci_bind_by_name($stid_ans, ':id', $id);
 
         if (oci_execute($stid_ans, OCI_NO_AUTO_COMMIT)) {
             oci_commit($conn);
@@ -67,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['answer_submit'])) {
             oci_rollback($conn);
             $_SESSION['kb_msg'] = 'Mentési hiba: ' . $e['message'];
         }
-
         oci_free_statement($stid_ans);
     }
     header('Location: admin.php#tudastar');
