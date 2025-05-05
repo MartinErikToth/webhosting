@@ -89,7 +89,7 @@ while ($row = oci_fetch_assoc($stid_service)) {
             <?php foreach ($top_spenders as $row): ?>
                 <tr>
                     <td><?= htmlspecialchars($row['FELHASZNALONEV']) ?></td>
-                    <td><?= number_format($row['OSSZEG'], 0, ',', ' ') ?></td>
+                    <td><?= number_format((float)$row['OSSZEG'], 0, ',', ' ')  ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
