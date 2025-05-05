@@ -19,15 +19,15 @@ if (!oci_execute($stid)) {
     die("Hiba a havi bevételek lekérdezésekor: " . htmlspecialchars($e['message']));
 }
 
-$sql_top_user = "SELECT FELHASZNALOK.FELHASZNALONEV
+$sql_top_user = "SELECT FELHASZNALONEV
 FROM (
-  SELECT FELHASZNALOK.FELHASZNALONEV, COUNT(*) AS VASARLASOK
+  SELECT FELHASZNALOK.FELHASZNALONEV, COUNT(*) AS VASARLASOK,
+         ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS RNUM
   FROM FELHASZNALOK
   JOIN VASARLAS ON VASARLAS.FELHASZNALO_ID = FELHASZNALOK.ID
   GROUP BY FELHASZNALOK.FELHASZNALONEV
-  ORDER BY VASARLASOK DESC
 )
-WHERE ROWNUM = 1";
+WHERE RNUM = 1";
 $stid_top = oci_parse($conn, $sql_top_user);
 oci_execute($stid_top);
 $top_vasarlok = [];
