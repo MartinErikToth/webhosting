@@ -74,6 +74,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['answer_submit'])) {
     exit;
 }
 
+$stid_top = oci_parse($conn, "
+    SELECT 
+        f.ID AS FELHASZNALO_ID,
+        f.FELHASZNALONEV,
+        f.EMAIL,
+        COUNT(v.VASARLAS_AZON) AS VASARLASOK_SZAMA
+    FROM 
+        C##R6LBDN.FELHASZNALOK f
+    JOIN 
+        C##R6LBDN.VASARLAS v ON f.ID = v.FELHASZNALO_ID
+    GROUP BY 
+        f.ID, f.FELHASZNALONEV, f.EMAIL
+    ORDER BY 
+        VASARLASOK_SZAMA DESC
+    FETCH FIRST 1 ROWS ONLY
+");
+oci_execute($stid_top);
+
+$stid_user = "
+SELECT f.ID, f.FELHASZNALONEV, COUNT(bn.NAPLO_ID) AS bejelentkezesek_szama
+FROM FELHASZNALOK f
+JOIN BEJELENTKEZES_NAPLO bn ON f.ID = bn.FELHASZNALO_ID
+GROUP BY f.ID, f.FELHASZNALONEV
+HAVING COUNT(bn.NAPLO_ID) = (
+    SELECT MAX(bejelentkezesek_db)
+    FROM (
+        SELECT COUNT(*) AS bejelentkezesek_db
+        FROM BEJELENTKEZES_NAPLO
+        GROUP BY FELHASZNALO_ID
+    )
+)
+";
+$stid = oci_parse($conn, $stid_user);
+oci_execute($stid);
+
 $stid_novalasz = oci_parse($conn, "SELECT BEJEGYZES_SZAMA, TIPUS, KERDES,
                                          TO_CHAR(MIKOR_KESZULT,'YYYY-MM-DD HH24:MI') AS KESZULT
                                   FROM BEJEGYZES
@@ -189,6 +224,47 @@ oci_execute($stid_valaszolt);
             </table>
         <?php endif; ?>
     </section>
+
+    <section id="topvasarlo">
+    <h2>Top vásárló</h2>
+    <?php if ($row = oci_fetch_assoc($stid_top)): ?>
+        <table class="datatable">
+            <thead>
+                <tr><th>ID</th><th>Felhasználónév</th><th>Email</th><th>Vásárlások száma</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?php echo $row['FELHASZNALO_ID']; ?></td>
+                    <td><?php echo htmlspecialchars($row['FELHASZNALONEV']); ?></td>
+                    <td><?php echo htmlspecialchars($row['EMAIL']); ?></td>
+                    <td><?php echo $row['VASARLASOK_SZAMA']; ?></td>
+                </tr>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Nincs vásárlási adat.</p>
+    <?php endif; ?>
+</section>
+
+<section id="topbejelentkezo">
+    <h2>Top bejelentkező</h2>
+    <?php if ($row = oci_fetch_assoc($stid)): ?>
+        <table class="datatable">
+            <thead>
+                <tr><th>ID</th><th>Felhasználónév</th><th>Bejelentkezések száma</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?php echo $row['ID']; ?></td>
+                    <td><?php echo htmlspecialchars($row['FELHASZNALONEV']); ?></td>
+                    <td><?php echo $row['BEJELENTKEZESEK_SZAMA']; ?></td>
+                </tr>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Nincs bejelentkezési adat.</p>
+    <?php endif; ?>
+</section>
 </main>
 
 <?php include 'footer.php'; ?>
