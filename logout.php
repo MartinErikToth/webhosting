@@ -6,9 +6,8 @@ $conn = oci_connect('C##R6LBDN', 'C##R6LBDN',
 
 if (isset($_SESSION['user_id'])) {
     $felhasznalo_id = $_SESSION['user_id'];
-    
-    $sql = "UPDATE FELHASZNALOK SET BE_VAN_JELENTKEZVE = 'N' WHERE ID = :felhasznalo_id";
-    $stmt = oci_parse($conn, $sql);
+
+    $stmt = oci_parse($conn, "BEGIN KILEPTET_FELHASZNALO(:felhasznalo_id); END;");
     oci_bind_by_name($stmt, ":felhasznalo_id", $felhasznalo_id);
 
     if (oci_execute($stmt)) {
@@ -30,10 +29,8 @@ if (isset($_SESSION['user_id'])) {
     }
 
     oci_free_statement($stmt);
-} else {
-    header("Location: login.php");
-    exit;
 }
+
 
 oci_close($conn);
 ?>
