@@ -21,8 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csomagnev'])) {
 
     if ($csomagnev === '' || $csomagar === '' || $szolgaltatasNev === '') {
         $_SESSION['pkg_msg'] = 'Kérjük, tölts ki minden mezőt!';
-    } else {
-        
+    } else {  
         $stid_pkg = oci_parse($conn, "INSERT INTO DIJCSOMAG (CSOMAGNEV, CSOMAG_AR) VALUES (:nev, :ar)");
         oci_bind_by_name($stid_pkg, ':nev', $csomagnev);
         oci_bind_by_name($stid_pkg, ':ar',  $csomagar);
@@ -124,8 +123,7 @@ $stid_valaszolt = oci_parse($conn, "SELECT BEJEGYZES_SZAMA, TIPUS, KERDES, VALAS
                                     ORDER BY BEJEGYZES_SZAMA DESC");
 oci_execute($stid_valaszolt);
 
-
-$sql = "
+$sql5 = "
     SELECT TO_CHAR(VASARLAS.VASARLAS_IDOPONT, 'YYYY-MM') AS honap, 
            SUM(DIJCSOMAG.CSOMAG_AR) AS havi_bevetel
     FROM VASARLAS
@@ -135,11 +133,12 @@ $sql = "
     GROUP BY TO_CHAR(VASARLAS.VASARLAS_IDOPONT, 'YYYY-MM')
     ORDER BY honap
 ";
-$stid = oci_parse($conn, $sql);
-if (!oci_execute($stid)) {
-    $e = oci_error($stid);
+$stid2 = oci_parse($conn, $sql5);
+if (!oci_execute($stid2)) {
+    $e = oci_error($stid2);
     die("Hiba a havi bevételek lekérdezésekor: " . htmlspecialchars($e['message']));
 }
+
 
 
 ?>
