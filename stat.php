@@ -78,6 +78,7 @@ while ($row = oci_fetch_assoc($stid_service)) {
     <link rel="stylesheet" href="css/stat.css">
 </head>
 <body>
+    <div class="container">
     <h2>Havi bevételek</h2>
     <table>
         <tr><th>Hónap</th><th>Bevétel (Ft)</th></tr>
@@ -125,6 +126,8 @@ while ($row = oci_fetch_assoc($stid_service)) {
     <?php else: ?>
         <p>Nem található népszerű szolgáltatás.</p>
     <?php endif; ?>
+    </div>
+    
 </body>
 </html>
 <?php
