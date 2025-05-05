@@ -139,6 +139,30 @@ if (!oci_execute($stid2)) {
     die("Hiba a havi bevételek lekérdezésekor: " . htmlspecialchars($e['message']));
 }
 
+$sql_havi_csomag = "
+    SELECT  TO_CHAR(v.VASARLAS_IDOPONT,'YYYY-MM') AS HONAP,
+            d.CSOMAGNEV,
+            SUM(d.CSOMAG_AR)                AS BEVETEL
+    FROM    VASARLAS        v
+    JOIN    SZAMLAK         sz ON v.SZAMLASZAM        = sz.SZAMLASZAM
+    JOIN    DIJCSOMAG       d  ON sz.TERMEKMEGNEVEZES = d.CSOMAGNEV
+    GROUP BY TO_CHAR(v.VASARLAS_IDOPONT,'YYYY-MM'), d.CSOMAGNEV
+    ORDER BY HONAP, d.CSOMAGNEV
+";
+$stid_csomag = oci_parse($conn, $sql_havi_csomag);
+oci_execute($stid_csomag);
+
+
+$sql_nem_vasarlok = "
+    SELECT FELHASZNALONEV, EMAIL
+    FROM   FELHASZNALOK
+    WHERE  ID NOT IN (SELECT DISTINCT FELHASZNALO_ID FROM VASARLAS)
+    ORDER BY FELHASZNALONEV
+";
+$stid_nem_vasarlok = oci_parse($conn, $sql_nem_vasarlok);
+oci_execute($stid_nem_vasarlok);
+
+
 
 
 ?>
@@ -296,6 +320,35 @@ if (!oci_execute($stid2)) {
     </table>
 
     </section>
+
+<section id="havi-bevetel-csomag">
+  <h2>Havi bevétel csomagonként</h2>
+  <table class="datatable">
+    <tr><th>Hónap</th><th>Csomag</th><th>Bevétel (Ft)</th></tr>
+    <?php while ($row = oci_fetch_assoc($stid_csomag)): ?>
+      <tr>
+        <td><?= htmlspecialchars($row['HONAP']) ?></td>
+        <td><?= htmlspecialchars($row['CSOMAGNEV']) ?></td>
+        <td><?= number_format($row['BEVETEL'], 0, ',', ' ') ?></td>
+      </tr>
+    <?php endwhile; ?>
+  </table>
+</section>
+
+
+<section id="nemvasarlok">
+  <h2>Nem vásárló felhasználók</h2>
+  <?php if (oci_fetch_all($stid_nem_vasarlok, $tmp_nv, null, null, OCI_FETCHSTATEMENT_BY_ROW) === 0): ?>
+      <p>Minden felhasználó vásárolt már.</p>
+  <?php else: ?>
+      <?php oci_execute($stid_nem_vasarlok); ?>
+      <ul>
+        <?php while ($row = oci_fetch_assoc($stid_nem_vasarlok)): ?>
+          <li><strong><?= htmlspecialchars($row['FELHASZNALONEV']) ?></strong> – <?= htmlspecialchars($row['EMAIL']) ?></li>
+        <?php endwhile; ?>
+      </ul>
+  <?php endif; ?>
+</section>
 
 <?php include 'footer.php'; ?>
 </body>
