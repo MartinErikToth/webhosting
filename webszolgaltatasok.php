@@ -14,9 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['torol_csomagkod'])) {
     if ($szerep === 'szerkeszto') {
 
         $torlendo_id = (int)$_POST['torol_csomagkod'];
-        $del_sql = "DELETE FROM DIJCSOMAG WHERE CSOMAGKOD = :id";
-        $del_st = oci_parse($conn, $del_sql);
-        oci_bind_by_name($del_st, ":id", $torlendo_id);
+        $del_st = oci_parse($conn, 'BEGIN torol_dijcsomag(:id); END;');
+        oci_bind_by_name($del_st, ':id', $torlendo_id);
 
         if (oci_execute($del_st)) {
             $uzenet_siker = "Csomag sikeresen törölve!";
