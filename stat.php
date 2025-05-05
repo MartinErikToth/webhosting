@@ -10,24 +10,16 @@ if (!$conn) {
     die("Kapcsolódási hiba: " . htmlspecialchars($e['message']));
 }
 
-$sql = "SELECT TO_CHAR(VASARLAS.VASARLAS_IDOPONT, 'YYYY-MM') AS honap, SUM(DIJCSOMAG.CSOMAG_AR) AS havi_bevetel
-    FROM DIJCSOMAG JOIN VASARLAS  ON DIJCSOMAG.VASARLAS_AZON = VASARLAS.VASARLAS_AZON GROUP BY TO_CHAR(VASARLAS.VASARLAS_IDOPONT, 'YYYY-MM')ORDER BY honap
-";
-$stid = oci_parse($conn, $sql);
-if (!oci_execute($stid)) {
-    $e = oci_error($stid);
-    die("Hiba a havi bevételek lekérdezésekor: " . htmlspecialchars($e['message']));
-}
 
-$sql_top_user = "SELECT FELHASZNALONEV
-FROM (
+$sql_top_user = "
+SELECT FELHASZNALONEV, VASARLASOK FROM (
   SELECT FELHASZNALOK.FELHASZNALONEV, COUNT(*) AS VASARLASOK,
-         ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS RNUM
+         RANK() OVER (ORDER BY COUNT(*) DESC) AS RNUM
   FROM FELHASZNALOK
   JOIN VASARLAS ON VASARLAS.FELHASZNALO_ID = FELHASZNALOK.ID
   GROUP BY FELHASZNALOK.FELHASZNALONEV
-)
-WHERE RNUM = 1";
+) WHERE RNUM = 1
+";
 $stid_top = oci_parse($conn, $sql_top_user);
 oci_execute($stid_top);
 $top_vasarlok = [];
@@ -35,17 +27,17 @@ while ($row = oci_fetch_assoc($stid_top)) {
     $top_vasarlok[] = $row;
 }
 
-$sql_top_spender = "SELECT FELHASZNALOK.FELHASZNALONEV
-FROM(
-    SELECT FELHASZNALOK.FELHASZNALONEV, SUM(DIJCSOMAG.CSOMAG_AR) AS AR
+$sql_top_spender = "
+SELECT FELHASZNALONEV, AR FROM (
+    SELECT FELHASZNALOK.FELHASZNALONEV, SUM(DIJCSOMAG.CSOMAG_AR) AS AR,
+           RANK() OVER (ORDER BY SUM(DIJCSOMAG.CSOMAG_AR) DESC) AS r
     FROM FELHASZNALOK
-    JOIN VASARLAS ON VASARLAS.FELHASZNALO_ID=FELHASZNALOK.ID
-    JOIN DIJCSOMAG ON VASARLAS.VASARLAS_AZON=DIJCSOMAG.VASARLAS_AZON
+    JOIN VASARLAS ON VASARLAS.FELHASZNALO_ID = FELHASZNALOK.ID
+    JOIN SZAMLAK ON VASARLAS.SZAMLASZAM = SZAMLAK.SZAMLASZAM
+    JOIN DIJCSOMAG ON SZAMLAK.TERMEKMEGNEVEZES = DIJCSOMAG.CSOMAGNEV
     GROUP BY FELHASZNALOK.FELHASZNALONEV
-    ORDER BY AR DESC
-)
-WHERE ROWNUM=1";
-
+) WHERE r = 1
+";
 $stid_spender = oci_parse($conn, $sql_top_spender);
 oci_execute($stid_spender);
 $top_spenders = [];
@@ -53,18 +45,18 @@ while ($row = oci_fetch_assoc($stid_spender)) {
     $top_spenders[] = $row;
 }
 
-$sql_top_service = "SELECT SZOLGALTATAS_NEV, MEGTEKINTESK_SZAMA FROM (
+$sql_top_service = "
+SELECT SZOLGALTATAS_NEV, MEGTEKINTESK_SZAMA FROM (
     SELECT SZOLGALTATAS_NEV, MEGTEKINTESK_SZAMA,
            RANK() OVER (ORDER BY MEGTEKINTESK_SZAMA DESC) AS rangsor
     FROM WEB_SZOLGALTATAS
-) WHERE rangsor = 1";
-
+) WHERE rangsor = 1
+";
 $stid_service = oci_parse($conn, $sql_top_service);
 if (!oci_execute($stid_service)) {
     $e = oci_error($stid_service);
     die("Hiba a legnépszerűbb szolgáltatás lekérdezésekor: " . htmlspecialchars($e['message']));
 }
-
 $top_services = [];
 while ($row = oci_fetch_assoc($stid_service)) {
     $top_services[] = $row;
@@ -74,23 +66,14 @@ while ($row = oci_fetch_assoc($stid_service)) {
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Havi bevételek</title>
-    <link rel="stylesheet" href="css/stat.css">
+    <title>Havi statisztikák</title>
+    <link rel="stylesheet" href="css/st.css">
 </head>
 <body>
-    <div class="container">
-    <h2>Havi bevételek</h2>
-    <table>
-        <tr><th>Hónap</th><th>Bevétel (Ft)</th></tr>
-        <?php while ($row = oci_fetch_assoc($stid)): ?>
-            <tr>
-                <td><?= htmlspecialchars($row['HONAP']) ?></td>
-                <td><?= number_format($row['HAVI_BEVETEL'], 0, ',', ' ') ?></td>
-            </tr>
-        <?php endwhile; ?>
-    </table>
-
-    <h2>Legaktívabb vásárlók ebben a hónapban</h2>
+<?php include 'header.php'; ?>
+<div class="container">
+    
+    <h2>Legaktívabb vásárlók</h2>
     <?php if (!empty($top_vasarlok)): ?>
         <ul>
         <?php foreach ($top_vasarlok as $vasarlo): ?>
@@ -98,10 +81,10 @@ while ($row = oci_fetch_assoc($stid_service)) {
         <?php endforeach; ?>
         </ul>
     <?php else: ?>
-        <p>Nincs vásárlás ebben a hónapban.</p>
+        <p>Nincs vásárlás adat.</p>
     <?php endif; ?>
 
-    <h2>Legtöbbet költő vásárlók ebben a hónapban</h2>
+    <h2>Legtöbbet költő vásárlók</h2>
     <?php if (!empty($top_spenders)): ?>
         <table>
             <tr><th>Vásárló</th><th>Összeg (Ft)</th></tr>
@@ -113,7 +96,7 @@ while ($row = oci_fetch_assoc($stid_service)) {
             <?php endforeach; ?>
         </table>
     <?php else: ?>
-        <p>Nincs vásárlás ebben a hónapban.</p>
+        <p>Nincs költési adat.</p>
     <?php endif; ?>
 
     <h2>Legnépszerűbb webszolgáltatás</h2>
@@ -124,14 +107,13 @@ while ($row = oci_fetch_assoc($stid_service)) {
             <?php endforeach; ?>
         </ul>
     <?php else: ?>
-        <p>Nem található népszerű szolgáltatás.</p>
+        <p>Nincs elérhető adat.</p>
     <?php endif; ?>
-    </div>
-    
+</div>
 </body>
 </html>
 <?php
-oci_free_statement($stid);
+
 oci_free_statement($stid_top);
 oci_free_statement($stid_spender);
 oci_free_statement($stid_service);

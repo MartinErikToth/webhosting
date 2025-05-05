@@ -124,6 +124,23 @@ $stid_valaszolt = oci_parse($conn, "SELECT BEJEGYZES_SZAMA, TIPUS, KERDES, VALAS
 oci_execute($stid_valaszolt);
 
 
+$sql = "
+    SELECT TO_CHAR(VASARLAS.VASARLAS_IDOPONT, 'YYYY-MM') AS honap, 
+           SUM(DIJCSOMAG.CSOMAG_AR) AS havi_bevetel
+    FROM VASARLAS
+    JOIN FELHASZNALOK ON VASARLAS.FELHASZNALO_ID = FELHASZNALOK.ID
+    JOIN SZAMLAK ON VASARLAS.SZAMLASZAM = SZAMLAK.SZAMLASZAM
+    JOIN DIJCSOMAG ON SZAMLAK.TERMEKMEGNEVEZES = DIJCSOMAG.CSOMAGNEV
+    GROUP BY TO_CHAR(VASARLAS.VASARLAS_IDOPONT, 'YYYY-MM')
+    ORDER BY honap
+";
+$stid = oci_parse($conn, $sql);
+if (!oci_execute($stid)) {
+    $e = oci_error($stid);
+    die("Hiba a havi bevételek lekérdezésekor: " . htmlspecialchars($e['message']));
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="hu">
@@ -266,6 +283,19 @@ oci_execute($stid_valaszolt);
     <?php endif; ?>
 </section>
 </main>
+<section id="bevetel">
+<h2>Havi bevételek</h2>
+    <table>
+        <tr><th>Hónap</th><th>Bevétel (Ft)</th></tr>
+        <?php while ($row = oci_fetch_assoc($stid)): ?>
+            <tr>
+                <td><?= htmlspecialchars($row['HONAP']) ?></td>
+                <td><?= number_format($row['HAVI_BEVETEL'], 0, ',', ' ') ?></td>
+            </tr>
+        <?php endwhile; ?>
+    </table>
+
+    </section>
 
 <?php include 'footer.php'; ?>
 </body>
