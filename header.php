@@ -30,6 +30,7 @@ if (session_status() == PHP_SESSION_NONE) {
 			<?php if (isset($_SESSION['user_id'], $_SESSION['szerep']) && $_SESSION['szerep'] === 'szerkeszto'): ?>
 				<li><a href="admin.php">Admin</a></li>
 			<?php endif; ?>
+            <li><a href="stat.php">Statisztikák</a></li>
         </ul>
     </nav>
 </header>
