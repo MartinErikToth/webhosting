@@ -27,17 +27,13 @@ while ($row = oci_fetch_assoc($stid_top)) {
     $top_vasarlok[] = $row;
 }
 
-$sql_top_spender = "SELECT FELHASZNALONEV
-FROM(
-    SELECT FELHASZNALONEV, SUM(DIJCSOMAG.CSOMAG_AR) AS AR
-    FROM FELHASZNALOK
-    JOIN VASARLAS ON VASARLAS.FELHASZNALO_ID=FELHASZNALOK.ID
-    JOIN DIJCSOMAG ON VASARLAS.CSOMAGKOD =DIJCSOMAG.CSOMAGKOD
-
-    GROUP BY FELHASZNALONEV
-    ORDER BY AR DESC
-)
-WHERE ROWNUM=1
+$sql_top_spender = "SELECT FELHASZNALONEV, SUM(DIJCSOMAG.CSOMAG_AR) AS OSSZEG
+FROM FELHASZNALOK
+JOIN VASARLAS ON VASARLAS.FELHASZNALO_ID = FELHASZNALOK.ID
+JOIN DIJCSOMAG ON VASARLAS.CSOMAGKOD = DIJCSOMAG.CSOMAGKOD
+GROUP BY FELHASZNALONEV
+ORDER BY OSSZEG DESC
+FETCH FIRST 1 ROWS ONLY
 
 ";
 $stid_spender = oci_parse($conn, $sql_top_spender);
@@ -93,7 +89,7 @@ while ($row = oci_fetch_assoc($stid_service)) {
             <?php foreach ($top_spenders as $row): ?>
                 <tr>
                     <td><?= htmlspecialchars($row['FELHASZNALONEV']) ?></td>
-                    <td><?= number_format($row['AR'], 0, ',', ' ') ?></td>
+                    <td><?= number_format($row['OSSZEG'], 0, ',', ' ') ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
