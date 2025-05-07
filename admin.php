@@ -314,7 +314,7 @@ oci_execute($stid_nem_vasarlok);
         <?php while ($row = oci_fetch_assoc($stid2)): ?>
             <tr>
                 <td><?= htmlspecialchars($row['HONAP']) ?></td>
-                <td><?= number_format(ceil((float)$row['HAVI_BEVETEL'] / 1000) * 1000, 0, ',', ' ') ?></td>
+                <td><?= number_format(ceil((float)$row['HAVI_BEVETEL'] / 1000) * 1000, 0, ',', ' ') ?> Ft</td>
             </tr>
         <?php endwhile; ?>
     </table>
@@ -329,7 +329,7 @@ oci_execute($stid_nem_vasarlok);
       <tr>
         <td><?= htmlspecialchars($row['HONAP']) ?></td>
         <td><?= htmlspecialchars($row['CSOMAGNEV']) ?></td>
-        <td><?= number_format(ceil((float)$row['BEVETEL'] / 1000) * 1000, 0, ',', ' ') ?></td>
+        <td><?= number_format(ceil((float)$row['BEVETEL'] / 1000) * 1000, 0, ',', ' ') ?> Ft</td>
       </tr>
     <?php endwhile; ?>
   </table>

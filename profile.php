@@ -35,7 +35,7 @@ if (!empty($user['ADOSZAM'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) {
     $szamlaszam = $_POST['szamlaszam'];
     $adoszam = $_POST['adoszam'];
-
+    /*
     $getLastIdQuery = "SELECT NVL(MAX(ID), 0) AS MAX_ID FROM SZAMLAK";
     $stid = oci_parse($conn, $getLastIdQuery);
     oci_execute($stid);
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) 
     oci_free_statement($stid);
 
     $newId = $lastId + 1;
-
+    
     $insertSzamla = "INSERT INTO SZAMLAK (ID, SZAMLASZAM, TERMEKMEGNEVEZES, VEVO_ADOSZAMA)
                      VALUES (:id, :szamlaszam, 'Alap Web Hosting csomag', :adoszam)";
     $insStid = oci_parse($conn, $insertSzamla);
@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['szamlazas_submit'])) 
         exit();
     }
     oci_free_statement($insStid);
+    */
 
     $callProc = oci_parse($conn, "BEGIN SZAMLASZAM_ADOSZAM_FRISSITES(:id, :szamlaszam, :adoszam); END;");
     oci_bind_by_name($callProc, ":id", $id);
