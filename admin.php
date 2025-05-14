@@ -106,6 +106,25 @@ HAVING COUNT(bn.NAPLO_ID) = (
     )
 )
 ";
+
+
+$sql_arnaplo = "
+    SELECT 
+        w.SZOLGALTATASKOD,
+        w.SZOLGALTATAS_NEV,
+        n.AR,
+        
+    FROM 
+        WEB_SZOLGALTATAS w
+    JOIN 
+        AR_ERTEK_NAPLO n
+    ON w.SZOLGALTATASKOD = n.SZOLGALTATASKOD
+    
+";
+
+
+
+
 $stid = oci_parse($conn, $stid_user);
 oci_execute($stid);
 
@@ -164,7 +183,18 @@ oci_execute($stid_nem_vasarlok);
 
 
 
-
+$sql_felszolitasok = "
+    SELECT w.SZOLGALTATAS_NEV, f.uzenet
+    FROM WEB_SZOLGALTATAS w
+    JOIN FELSZOLITASOK f
+    ON w.SZOLGALTATASKOD = f.SZOLGALTATASKOD
+";
+$sql_bejelentkezesnaplo = "
+    SELECT FELHASZNALOK.FELHASZNALONEV, TO_CHAR(b.BEJELENTKEZES_IDO, 'YYYY-MM-DD HH24:MI') AS BEJ_IDO
+    FROM FELHASZNALOK 
+    JOIN BEJELENTKEZES_NAPLO b ON FELHASZNALOK.ID = b.FELHASZNALO_ID
+    ORDER BY b.BEJELENTKEZES_IDO DESC
+";
 ?>
 <!DOCTYPE html>
 <html lang="hu">
@@ -349,6 +379,68 @@ oci_execute($stid_nem_vasarlok);
       </ul>
   <?php endif; ?>
 </section>
+
+<section id="naplozott">
+    <h2>Ár-naplózott szolgáltatás</h2>
+<?php 
+$result1 = oci_parse($conn, $sql_arnaplo);
+oci_execute($result1);
+?>
+<table><tr><th>Kód</th><th>Név</th><th>Ár</th><th>Dátum</th></tr>";
+<?php while ($row = oci_fetch_assoc($result1)) {
+    echo "<tr>
+        <td>{$row['SZOLGALTATASKOD']}</td>
+        <td>{$row['SZOLGALTATAS_NEV']}</td>
+        <td>{$row['AR']}</td>
+        
+    </tr>";
+}
+?>
+</table>
+</section>
+
+
+<section>
+   <?php 
+$result2 = oci_parse($conn, $sql_felszolitasok);
+oci_execute($result2);
+?>
+<h2>Felszólítást kapott szolgáltatás</h2>
+<table><tr><th>Szolgáltatás</th><th>Üzenet</th></tr>;
+<?php 
+while ($row = oci_fetch_assoc($result2)) {
+    $uzenet = nl2br(htmlspecialchars($row['UZENET']));
+    echo "<tr>
+        <td>{$row['SZOLGALTATAS_NEV']}</td>
+        <td>{$uzenet}</td>
+    </tr>";
+}
+ ?>
+ </table>
+</section>
+
+<section>
+<?php  
+$result3 = oci_parse($conn, $sql_bejelentkezesnaplo);
+oci_execute($result3);
+?>
+
+<table><tr><th>Felhasználónév</th><th>Bejelentkezés ideje</th></tr>
+<?php
+
+
+while ($row = oci_fetch_assoc($result3)) {
+    echo "<tr>
+        <td>{$row['FELHASZNALONEV']}</td>
+        <td>{$row['BEJ_IDO']}</td>
+    </tr>";
+}
+
+?>
+
+</table>
+</section>
+
 
 <?php include 'footer.php'; ?>
 </body>
