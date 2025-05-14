@@ -112,7 +112,7 @@ $sql_arnaplo = "
     SELECT 
         w.SZOLGALTATASKOD,
         w.SZOLGALTATAS_NEV,
-        n.AR,
+        n.AR
         
     FROM 
         WEB_SZOLGALTATAS w
@@ -386,13 +386,12 @@ $sql_bejelentkezesnaplo = "
 $result1 = oci_parse($conn, $sql_arnaplo);
 oci_execute($result1);
 ?>
-<table><tr><th>Kód</th><th>Név</th><th>Ár</th><th>Dátum</th></tr>";
+<table><tr><th>Kód</th><th>Név</th><th>Ár</th></tr>
 <?php while ($row = oci_fetch_assoc($result1)) {
     echo "<tr>
         <td>{$row['SZOLGALTATASKOD']}</td>
         <td>{$row['SZOLGALTATAS_NEV']}</td>
-        <td>{$row['AR']}</td>
-        
+        <td>{$row['AR']}</td> 
     </tr>";
 }
 ?>
@@ -406,7 +405,7 @@ $result2 = oci_parse($conn, $sql_felszolitasok);
 oci_execute($result2);
 ?>
 <h2>Felszólítást kapott szolgáltatás</h2>
-<table><tr><th>Szolgáltatás</th><th>Üzenet</th></tr>;
+<table><tr><th>Szolgáltatás</th><th>Üzenet</th></tr>
 <?php 
 while ($row = oci_fetch_assoc($result2)) {
     $uzenet = nl2br(htmlspecialchars($row['UZENET']));

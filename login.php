@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if (trim($row['BE_VAN_JELENTKEZVE']) === 'Y') {
                     $hiba = "Ez a felhasználó már be van jelentkezve.";
                 } else {
-                    $stid2 = oci_parse($conn, 'BEGIN set_bejelentkezve(:id); END;');
+                    $stid2 = oci_parse($conn, "UPDATE FELHASZNALOK SET BE_VAN_JELENTKEZVE = 'Y'");
                     oci_bind_by_name($stid2, ':id', $row['ID']);
                     oci_execute($stid2);
                     oci_free_statement($stid2);
