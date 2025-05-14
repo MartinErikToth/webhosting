@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  File created - szerda-május-07-2025   
+--  File created - szerda-május-14-2025   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Table AR_ERTEK_NAPLO
@@ -108,20 +108,6 @@
 	"SZOLGALTATASKOD" NUMBER, 
 	"FELSZOLITAS_DATUM" DATE DEFAULT SYSDATE, 
 	"UZENET" VARCHAR2(1000 BYTE)
-   ) SEGMENT CREATION IMMEDIATE 
-  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
- NOCOMPRESS LOGGING
-  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
-  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
-  TABLESPACE "USERS" ;
---------------------------------------------------------
---  DDL for Table SAD
---------------------------------------------------------
-
-  CREATE TABLE "SAD" 
-   (	"ID" NUMBER, 
-	"EMAIL" VARCHAR2(255 BYTE)
    ) SEGMENT CREATION IMMEDIATE 
   PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
  NOCOMPRESS LOGGING
@@ -243,6 +229,24 @@ Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) valu
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('84','81',to_timestamp('25-MÁJ.  -05 13.11.38,516278000','RR-MON-DD HH24.MI.SSXFF'));
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('101','81',to_timestamp('25-MÁJ.  -05 20.09.11,672047000','RR-MON-DD HH24.MI.SSXFF'));
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('141','55',to_timestamp('25-MÁJ.  -07 22.10.16,797234000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('161','55',to_timestamp('25-MÁJ.  -14 18.25.13,089768000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('163','141',to_timestamp('25-MÁJ.  -14 19.03.45,616277000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('164','63',to_timestamp('25-MÁJ.  -14 19.03.45,616695000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('165','55',to_timestamp('25-MÁJ.  -14 19.03.45,616816000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('166','64',to_timestamp('25-MÁJ.  -14 19.03.45,616966000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('167','83',to_timestamp('25-MÁJ.  -14 19.03.45,617087000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('168','21',to_timestamp('25-MÁJ.  -14 19.03.45,617285000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('169','22',to_timestamp('25-MÁJ.  -14 19.03.45,617578000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('170','54',to_timestamp('25-MÁJ.  -14 19.03.45,617698000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('171','56',to_timestamp('25-MÁJ.  -14 19.03.45,617816000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('172','101',to_timestamp('25-MÁJ.  -14 19.03.45,617959000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('173','1',to_timestamp('25-MÁJ.  -14 19.03.45,618150000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('174','2',to_timestamp('25-MÁJ.  -14 19.03.45,618270000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('175','3',to_timestamp('25-MÁJ.  -14 19.03.45,618388000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('176','4',to_timestamp('25-MÁJ.  -14 19.03.45,618506000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('177','5',to_timestamp('25-MÁJ.  -14 19.03.45,618615000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('178','102',to_timestamp('25-MÁJ.  -14 19.03.45,618733000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('179','121',to_timestamp('25-MÁJ.  -14 19.03.45,618847000','RR-MON-DD HH24.MI.SSXFF'));
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('61','56',to_timestamp('25-MÁJ.  -05 10.30.38,848903000','RR-MON-DD HH24.MI.SSXFF'));
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('81','55',to_timestamp('25-MÁJ.  -05 12.18.59,570664000','RR-MON-DD HH24.MI.SSXFF'));
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('83','81',to_timestamp('25-MÁJ.  -05 13.10.28,471914000','RR-MON-DD HH24.MI.SSXFF'));
@@ -257,6 +261,7 @@ Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) valu
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('108','55',to_timestamp('25-MÁJ.  -05 22.48.46,089469000','RR-MON-DD HH24.MI.SSXFF'));
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('112','55',to_timestamp('25-MÁJ.  -06 09.00.05,209929000','RR-MON-DD HH24.MI.SSXFF'));
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('121','55',to_timestamp('25-MÁJ.  -07 21.15.59,552299000','RR-MON-DD HH24.MI.SSXFF'));
+Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('162','81',to_timestamp('25-MÁJ.  -14 18.28.11,999142000','RR-MON-DD HH24.MI.SSXFF'));
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('2','55',to_timestamp('25-MÁJ.  -04 13.41.11,255716000','RR-MON-DD HH24.MI.SSXFF'));
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('8','102',to_timestamp('25-MÁJ.  -04 14.44.29,940383000','RR-MON-DD HH24.MI.SSXFF'));
 Insert into BEJELENTKEZES_NAPLO (NAPLO_ID,FELHASZNALO_ID,BEJELENTKEZES_IDO) values ('9','55',to_timestamp('25-MÁJ.  -04 14.45.02,974191000','RR-MON-DD HH24.MI.SSXFF'));
@@ -286,41 +291,35 @@ Insert into DIJCSOMAG (CSOMAGKOD,CSOMAGNEV,CSOMAG_AR,VASARLAS_AZON) values ('5',
 REM INSERTING into FELHASZNALOK
 SET DEFINE OFF;
 Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('65','Y','asd2@gmail.hu','asd2','$2y$10$SHCIoJ2Um0GRQlKI70dox.V5E/A2nqOkWv.TkCqlyI8OkuLNLi3Py','Vendeg','10021','47892-213-21');
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('141','N','oci24@gmail.com','oci24','$2y$10$4d0kHRAhiSQvYSz92r/wwecCqRM5JXiKOVcgJP0PBHSAdVCp8PdWS','Vendeg','10099','24321-654-99');
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('63','N','martintoth9@gmail.org','teszt','$2y$10$MJQ/szR3K/qO5xRWtiml5eIqLE8bKe.lixSopCLNmhvNlgqZgzTwm','Vendeg',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('55','N','admin@webhosting.hu','admin','$2y$10$KaTQban.G1hPwRvFz6TxfuV4uLmkwgq3BjRL85GpvN5PaWxHtU74m','Szerkeszto','10062','24321-654-61');
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('141','Y','oci24@gmail.com','oci24','$2y$10$4d0kHRAhiSQvYSz92r/wwecCqRM5JXiKOVcgJP0PBHSAdVCp8PdWS','Vendeg','10099','24321-654-99');
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('63','Y','martintoth9@gmail.org','teszt','$2y$10$MJQ/szR3K/qO5xRWtiml5eIqLE8bKe.lixSopCLNmhvNlgqZgzTwm','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('55','Y','admin@webhosting.hu','admin','$2y$10$KaTQban.G1hPwRvFz6TxfuV4uLmkwgq3BjRL85GpvN5PaWxHtU74m','Szerkeszto','10062','24321-654-61');
 Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('81','Y','pista1@gmail.com','pista1','$2y$10$brcn4LyDyiDRkP6/CEL6kO2rEk/26UH2qW/zfddHIQoTuyoa.RC5W','Szerkeszto',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('64','N','martintoth9@gmail.asd','teszt2','$2y$10$Q/0aU82BhVuhmgBz9Bb9r.KQgcC4Og4xNU1ruqYTmXpZXp2YeZQj2','Vendeg',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('83','N','asd@gmail.com','asdasd','$2y$10$qZUvNMETIG8bupaON/FNq.FNfI4xMxjL0uh8sGcU3ezkqvF2d4Z02','Vendeg',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('21','N','newuser@example.com','NewUser','securePass123','Vendeg',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('22','N','asdnewuser@example.com','asd','securePaasdasdss123','Vendeg',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('54','N','test@test.hu','Bela','$2y$10$4VhX3SfN321MmyhzhL3DpeRtBDl.V7ikOY5tf3Wyq6e5CGT60xVVW','Vendeg',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('56','N','szia@gmail.com','szia','$2y$10$SMdx0xKrbS79WouiSjlY0.xx15CbGAPwLLF5OKdBzIK0HowwcREfO','Vendeg','10120','24321-654-120');
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('64','Y','martintoth9@gmail.asd','teszt2','$2y$10$Q/0aU82BhVuhmgBz9Bb9r.KQgcC4Og4xNU1ruqYTmXpZXp2YeZQj2','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('83','Y','asd@gmail.com','asdasd','$2y$10$qZUvNMETIG8bupaON/FNq.FNfI4xMxjL0uh8sGcU3ezkqvF2d4Z02','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('21','Y','newuser@example.com','NewUser','securePass123','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('22','Y','asdnewuser@example.com','asd','securePaasdasdss123','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('54','Y','test@test.hu','Bela','$2y$10$4VhX3SfN321MmyhzhL3DpeRtBDl.V7ikOY5tf3Wyq6e5CGT60xVVW','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('56','Y','szia@gmail.com','szia','$2y$10$SMdx0xKrbS79WouiSjlY0.xx15CbGAPwLLF5OKdBzIK0HowwcREfO','Vendeg','10120','24321-654-120');
 Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('82','Y','helo@helo.se','HELO','$2y$10$e1FU9j07ZTd7PTBNDqnhrObEEpVy4Se9xetfUSb9zw2gYrvVBXgQq','Vendeg','10100','47892-213-100');
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('101','N','oci@gmail.com','Oci','$2y$10$n1w5NwZUuOy4aKeQeMrGsOJA4AGc1vA130KEdJIJYhT8rAU/1699i','Vendeg','10200','47892-213-200');
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('1','N','janesmith@example.com','JaneSmith','securehash456','Szerkeszto',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('2','N','anna.kovacs@example.com','AnnaK','jelszo123','Vendeg',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('3','N','arrears@example.hu','CsabaT','pass789','Vendeg',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('4','N','arrears@example.com','janos_szabo','securepass','Vendeg',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('5','N','nagy.antal@example.com','Anti','anti29','Szerkeszto',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('102','N','ez@gmail.xe','Ezvagyok','$2y$10$euca215EsS9M3NbmK.5fheodXR/Sfuf11QvqawE/E30c4OJ2TKOri','Vendeg',null,null);
-Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('121','N','asdasd@asdasdasd','asdasdasd','$2y$10$2CWo7eNhl/FbQuYjLk2QO.8.6XML21JCJ0JozkgwFfXjafqiEHK.m','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('101','Y','oci@gmail.com','Oci','$2y$10$n1w5NwZUuOy4aKeQeMrGsOJA4AGc1vA130KEdJIJYhT8rAU/1699i','Vendeg','10200','47892-213-200');
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('1','Y','janesmith@example.com','JaneSmith','securehash456','Szerkeszto',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('2','Y','anna.kovacs@example.com','AnnaK','jelszo123','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('3','Y','arrears@example.hu','CsabaT','pass789','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('4','Y','arrears@example.com','janos_szabo','securepass','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('5','Y','nagy.antal@example.com','Anti','anti29','Szerkeszto',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('102','Y','ez@gmail.xe','Ezvagyok','$2y$10$euca215EsS9M3NbmK.5fheodXR/Sfuf11QvqawE/E30c4OJ2TKOri','Vendeg',null,null);
+Insert into FELHASZNALOK (ID,BE_VAN_JELENTKEZVE,EMAIL,FELHASZNALONEV,JELSZO,SZEREP,SZAMLASZAM,ADOSZAM) values ('121','Y','asdasd@asdasdasd','asdasdasd','$2y$10$2CWo7eNhl/FbQuYjLk2QO.8.6XML21JCJ0JozkgwFfXjafqiEHK.m','Vendeg',null,null);
 REM INSERTING into FELSZOLITASOK
 SET DEFINE OFF;
 Insert into FELSZOLITASOK (ID,SZOLGALTATASKOD,FELSZOLITAS_DATUM,UZENET) values ('21','141',to_date('25-MÁJ.  -06','RR-MON-DD'),'Fizetési hátralék miatt a szolgáltatás korlátozásra került. 30 napon belül rendezze tartozását.');
 Insert into FELSZOLITASOK (ID,SZOLGALTATASKOD,FELSZOLITAS_DATUM,UZENET) values ('1','104',to_date('25-MÁJ.  -04','RR-MON-DD'),'Fizetési hátralék miatt a szolgáltatás korlátozásra került. 30 napon belül rendezze tartozását.');
-REM INSERTING into SAD
-SET DEFINE OFF;
-Insert into SAD (ID,EMAIL) values ('63','martintoth9@gmail.org');
-Insert into SAD (ID,EMAIL) values ('64','martintoth9@gmail.asd');
-Insert into SAD (ID,EMAIL) values ('82','helo@helo.se');
-Insert into SAD (ID,EMAIL) values ('102','ez@gmail.xe');
-Insert into SAD (ID,EMAIL) values ('121','asdasd@asdasdasd');
 REM INSERTING into SZAMLAK
 SET DEFINE OFF;
 Insert into SZAMLAK (SZAMLASZAM,TERMEKMEGNEVEZES,ID,VEVO_ADOSZAMA) values ('10100','Oracle SSH+','8','47892-213-100');
 Insert into SZAMLAK (SZAMLASZAM,TERMEKMEGNEVEZES,ID,VEVO_ADOSZAMA) values ('10120','Prémium csomag','9','24321-654-120');
 Insert into SZAMLAK (SZAMLASZAM,TERMEKMEGNEVEZES,ID,VEVO_ADOSZAMA) values ('10099','Alap Web Hosting csomag','11','24321-654-99');
+Insert into SZAMLAK (SZAMLASZAM,TERMEKMEGNEVEZES,ID,VEVO_ADOSZAMA) values ('5543','Prémium csomag','15','24321-654-61');
 Insert into SZAMLAK (SZAMLASZAM,TERMEKMEGNEVEZES,ID,VEVO_ADOSZAMA) values ('10062','Alap csomag','14','24321-654-61');
 Insert into SZAMLAK (SZAMLASZAM,TERMEKMEGNEVEZES,ID,VEVO_ADOSZAMA) values ('10001','Tárhely csomag "Alap"','1','24321-654-7');
 Insert into SZAMLAK (SZAMLASZAM,TERMEKMEGNEVEZES,ID,VEVO_ADOSZAMA) values ('10002','Tárhely csomag "Prémium"','2','36745-987-1');
@@ -333,6 +332,7 @@ Insert into SZAMLAK (SZAMLASZAM,TERMEKMEGNEVEZES,ID,VEVO_ADOSZAMA) values ('1111
 Insert into SZAMLAK (SZAMLASZAM,TERMEKMEGNEVEZES,ID,VEVO_ADOSZAMA) values ('10062','Exclusive csomag','12','24321-654-61');
 REM INSERTING into SZAMLARA_KERUL
 SET DEFINE OFF;
+Insert into SZAMLARA_KERUL (SZAMLASZAM,IDOPONT) values ('5543',to_date('25-MÁJ.  -14','RR-MON-DD'));
 Insert into SZAMLARA_KERUL (SZAMLASZAM,IDOPONT) values ('10013',to_date('25-ÁPR.  -25','RR-MON-DD'));
 Insert into SZAMLARA_KERUL (SZAMLASZAM,IDOPONT) values ('10013',to_date('25-ÁPR.  -25','RR-MON-DD'));
 Insert into SZAMLARA_KERUL (SZAMLASZAM,IDOPONT) values ('10013',to_date('25-ÁPR.  -25','RR-MON-DD'));
@@ -398,6 +398,7 @@ Insert into VASARLAS (VASARLAS_AZON,VASARLAS_IDOPONT,FELHASZNALO_ID,SZAMLASZAM,C
 Insert into VASARLAS (VASARLAS_AZON,VASARLAS_IDOPONT,FELHASZNALO_ID,SZAMLASZAM,CSOMAGKOD) values ('83',to_date('25-ÁPR.  -28','RR-MON-DD'),'56','10014','1');
 Insert into VASARLAS (VASARLAS_AZON,VASARLAS_IDOPONT,FELHASZNALO_ID,SZAMLASZAM,CSOMAGKOD) values ('163',to_date('25-MÁJ.  -06','RR-MON-DD'),'141','10099',null);
 Insert into VASARLAS (VASARLAS_AZON,VASARLAS_IDOPONT,FELHASZNALO_ID,SZAMLASZAM,CSOMAGKOD) values ('162',to_date('25-MÁJ.  -05','RR-MON-DD'),'81','123123',null);
+Insert into VASARLAS (VASARLAS_AZON,VASARLAS_IDOPONT,FELHASZNALO_ID,SZAMLASZAM,CSOMAGKOD) values ('201',to_date('25-MÁJ.  -14','RR-MON-DD'),'55','5543',null);
 Insert into VASARLAS (VASARLAS_AZON,VASARLAS_IDOPONT,FELHASZNALO_ID,SZAMLASZAM,CSOMAGKOD) values ('62',to_date('25-ÁPR.  -25','RR-MON-DD'),'56','10013','1');
 Insert into VASARLAS (VASARLAS_AZON,VASARLAS_IDOPONT,FELHASZNALO_ID,SZAMLASZAM,CSOMAGKOD) values ('66',to_date('25-ÁPR.  -25','RR-MON-DD'),'56','10013','1');
 Insert into VASARLAS (VASARLAS_AZON,VASARLAS_IDOPONT,FELHASZNALO_ID,SZAMLASZAM,CSOMAGKOD) values ('67',to_date('25-ÁPR.  -25','RR-MON-DD'),'56','10013','1');
@@ -544,21 +545,6 @@ END;
 /
 ALTER TRIGGER "TRG_EMAIL_ELLENORZES" ENABLE;
 --------------------------------------------------------
---  DDL for Trigger TRG_FELHASZNALOK_TO_SAD
---------------------------------------------------------
-
-  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_FELHASZNALOK_TO_SAD" AFTER INSERT ON FELHASZNALOK
-FOR EACH ROW
-BEGIN
-    IF NOT (LOWER(:NEW.EMAIL) LIKE '%.com' OR LOWER(:NEW.EMAIL) LIKE '%.hu') THEN
-        INSERT INTO SAD (ID, EMAIL)
-        VALUES (:NEW.ID, :NEW.EMAIL);
-    END IF;
-END;
-
-/
-ALTER TRIGGER "TRG_FELHASZNALOK_TO_SAD" ENABLE;
---------------------------------------------------------
 --  DDL for Trigger TRG_FELTOLTES_MEGVONAS
 --------------------------------------------------------
 
@@ -570,28 +556,7 @@ BEGIN
     END IF;
 END;
 /
-ALTER TRIGGER "TRG_FELTOLTES_MEGVONAS" DISABLE;
---------------------------------------------------------
---  DDL for Trigger TRG_FIZETESI_HATRALEK
---------------------------------------------------------
-
-  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_FIZETESI_HATRALEK" 
-AFTER UPDATE ON C##R6LBDN.FELHASZNALOK
-FOR EACH ROW
-DECLARE
-    v_msg VARCHAR2(4000);
-BEGIN
-    IF :NEW.EMAIL = 'arrears@example.com' AND NVL(:OLD.EMAIL, '##NULL##') != NVL(:NEW.EMAIL, '##NULL##') THEN
-        sp_restrict_user_page(:NEW.ID, :NEW.FELHASZNALONEV);
-        DBMS_OUTPUT.PUT_LINE('Fizetési hátralék miatt a felhasználó oldala korlátozva lett.');
-    END IF;
-
-EXCEPTION
-    WHEN OTHERS THEN
-        DBMS_OUTPUT.PUT_LINE('Trigger hiba: ' || SQLERRM);
-END;
-/
-ALTER TRIGGER "TRG_FIZETESI_HATRALEK" ENABLE;
+ALTER TRIGGER "TRG_FELTOLTES_MEGVONAS" ENABLE;
 --------------------------------------------------------
 --  DDL for Trigger TRG_KORLAT_FELSZOLITAS
 --------------------------------------------------------
@@ -635,19 +600,6 @@ END;
 /
 ALTER TRIGGER "TRG_SZAMLA_HOZZAADAS" ENABLE;
 --------------------------------------------------------
---  DDL for Trigger TRG_TILT_ADMIN_TORLES
---------------------------------------------------------
-
-  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_TILT_ADMIN_TORLES" BEFORE DELETE ON FELHASZNALOK
-FOR EACH ROW
-BEGIN
-  IF LOWER(:OLD.SZEREP) = 'admin' THEN
-    RAISE_APPLICATION_ERROR(-20001, 'Admin törlése nem engedélyezett!');
-  END IF;
-END;
-/
-ALTER TRIGGER "TRG_TILT_ADMIN_TORLES" DISABLE;
---------------------------------------------------------
 --  DDL for Procedure FELHASZNALO_VASAROL
 --------------------------------------------------------
 set define off;
@@ -688,25 +640,6 @@ END;
 
 /
 --------------------------------------------------------
---  DDL for Procedure LISTAZ_FELHASZNALOK_SZEREP_SZERINT
---------------------------------------------------------
-set define off;
-
-  CREATE OR REPLACE EDITIONABLE PROCEDURE "LISTAZ_FELHASZNALOK_SZEREP_SZERINT" (
-    p_szerep IN VARCHAR2
-) AS
-BEGIN
-    FOR r IN (
-        SELECT ID, FELHASZNALONEV, EMAIL
-        FROM FELHASZNALOK
-        WHERE LOWER(SZEREP) = LOWER(p_szerep)
-    ) LOOP
-        DBMS_OUTPUT.PUT_LINE('ID: ' || r.ID || ', Név: ' || r.FELHASZNALONEV || ', Email: ' || r.EMAIL);
-    END LOOP;
-END;
-
-/
---------------------------------------------------------
 --  DDL for Procedure REGISZTRAL_FELHASZNALO
 --------------------------------------------------------
 set define off;
@@ -733,58 +666,6 @@ BEGIN
             'N', p_email, p_fnev, p_jelszo, p_szerep
         ) RETURNING ID INTO p_user_id;
     END IF;
-END;
-
-/
---------------------------------------------------------
---  DDL for Procedure SET_BEJELENTKEZVE
---------------------------------------------------------
-set define off;
-
-  CREATE OR REPLACE EDITIONABLE PROCEDURE "SET_BEJELENTKEZVE" (
-    p_id IN NUMBER
-) AS
-BEGIN
-    UPDATE FELHASZNALOK
-    SET BE_VAN_JELENTKEZVE = 'Y'
-    WHERE ID = p_id;
-END;
-
-/
---------------------------------------------------------
---  DDL for Procedure SP_ARCHIVE_INVOICE
---------------------------------------------------------
-set define off;
-
-  CREATE OR REPLACE EDITIONABLE PROCEDURE "SP_ARCHIVE_INVOICE" (p_szamlaszam NUMBER) IS
-BEGIN
-   INSERT INTO C##R6LBDN.SAD (ID) 
-   VALUES (p_szamlaszam);
-   COMMIT;
-EXCEPTION
-   WHEN OTHERS THEN
-      RAISE_APPLICATION_ERROR(-20003, 'Hiba az archíválás során: ' || SQLERRM);
-END;
-
-/
---------------------------------------------------------
---  DDL for Procedure SP_RESTRICT_USER_PAGE
---------------------------------------------------------
-set define off;
-
-  CREATE OR REPLACE EDITIONABLE PROCEDURE "SP_RESTRICT_USER_PAGE" (
-    p_felhasznalo_id NUMBER,
-    p_username      VARCHAR2
-) IS
-BEGIN
-   UPDATE WEB_SZOLGALTATAS
-      SET AKTIV_E = 'N'
-    WHERE SZOLGALTATAS_NEV = p_username || ' oldal';
-
-   DBMS_OUTPUT.PUT_LINE('Felhasználó ' || p_felhasznalo_id || ' oldala korlátozva lett.');
-EXCEPTION
-   WHEN OTHERS THEN
-      DBMS_OUTPUT.PUT_LINE('Hiba az oldal korlátozása során: ' || SQLERRM);
 END;
 
 /
